@@ -1,0 +1,91 @@
+body {
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    background-color: #f4f6f9;
+    color: #1f2937;
+}
+
+.navbar {
+    background: linear-gradient(135deg, #0f3d3e 0%, #146356 100%);
+}
+.navbar .nav-link { color: #d9f0ec; font-weight: 500; transition: color 0.2s ease; }
+.navbar .nav-link.active, .navbar .nav-link:hover { color: #fff; }
+.navbar-brand { color: #fff !important; font-weight: 700; letter-spacing: 0.5px; }
+
+.page-title { font-weight: 700; color: #0f3d3e; margin-bottom: 20px; }
+
+.card-stat {
+    background: #fff;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.05);
+    border-left: 5px solid #146356;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.card-stat:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+}
+.card-stat h2 { margin: 0; font-weight: 700; color: #0f3d3e; font-size: 1.8rem; }
+.card-stat p { margin: 0; color: #6b7280; font-size: 13px; text-transform: uppercase; font-weight: 600; }
+
+.table thead { background-color: #146356; color: #fff; }
+.table-wrap {
+    background: #fff;
+    border-radius: 12px;
+    padding: 22px;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.05);
+    border: 1px solid #edf2f7;
+}
+
+.badge-status-dipinjam { background-color: #f59e0b; color: #fff; }
+.badge-status-dikembalikan { background-color: #16a34a; color: #fff; }
+.badge-kondisi-rusak { background-color: #dc2626; color: #fff; }
+.badge-kondisi-baik { background-color: #16a34a; color: #fff; }
+
+.btn-primary-lab {
+    background-color: #146356;
+    border-color: #146356;
+    transition: all 0.2s ease;
+}
+.btn-primary-lab:hover, .btn-primary-lab:focus {
+    background-color: #0f3d3e;
+    border-color: #0f3d3e;
+    color: #fff;
+}
+
+/* Mahasiswa Portal Styling */
+.hero-welcome {
+    background: linear-gradient(135deg, #0f3d3e 0%, #146356 70%, #1e8270 100%);
+    color: #ffffff;
+    border-radius: 14px;
+    padding: 26px;
+    box-shadow: 0 8px 20px rgba(15, 61, 62, 0.15);
+    margin-bottom: 25px;
+}
+.hero-welcome h4 { font-weight: 700; }
+
+.tool-card {
+    background: #fff;
+    border-radius: 12px;
+    border: 1px solid #e5e7eb;
+    transition: all 0.25s ease;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+.tool-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 22px rgba(0,0,0,0.08);
+    border-color: #146356;
+}
+.tool-card .tool-icon {
+    width: 50px;
+    height: 50px;
+    background: #e6f4f1;
+    color: #146356;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+}

@@ -1,0 +1,672 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>UTS MSI Kelompok 6 – Sistem Peminjaman Alat Lab</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --navy:   #0d1b3e;
+      --blue:   #1a56db;
+      --teal:   #0ea5e9;
+      --accent: #38bdf8;
+      --gold:   #f59e0b;
+      --white:  #ffffff;
+      --light:  #e8f4fd;
+      --muted:  #94a3b8;
+      --card:   rgba(255,255,255,0.07);
+      --border: rgba(255,255,255,0.15);
+    }
+
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background: var(--navy);
+      color: var(--white);
+      overflow: hidden;
+      height: 100vh;
+      width: 100vw;
+    }
+
+    /* ── SLIDE CONTAINER ── */
+    .deck { width: 100%; height: 100vh; position: relative; }
+
+    .slide {
+      position: absolute; inset: 0;
+      display: flex; flex-direction: column;
+      opacity: 0; pointer-events: none;
+      transform: translateX(60px);
+      transition: opacity .45s ease, transform .45s ease;
+    }
+    .slide.active {
+      opacity: 1; pointer-events: auto;
+      transform: translateX(0);
+    }
+    .slide.prev {
+      opacity: 0; transform: translateX(-60px);
+    }
+
+    /* ── SHARED LAYOUT ── */
+    .slide-inner {
+      flex: 1; display: flex; flex-direction: column;
+      padding: 48px 72px 32px;
+      position: relative; overflow: hidden;
+    }
+
+    /* decorative circles */
+    .slide-inner::before {
+      content: '';
+      position: absolute;
+      width: 500px; height: 500px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(14,165,233,.18) 0%, transparent 70%);
+      top: -150px; right: -100px;
+      pointer-events: none;
+    }
+    .slide-inner::after {
+      content: '';
+      position: absolute;
+      width: 300px; height: 300px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(245,158,11,.10) 0%, transparent 70%);
+      bottom: -80px; left: -60px;
+      pointer-events: none;
+    }
+
+    /* top accent bar */
+    .top-bar {
+      height: 5px;
+      background: linear-gradient(90deg, var(--blue), var(--teal), var(--gold));
+    }
+
+    /* ── TYPOGRAPHY ── */
+    .chip {
+      display: inline-block;
+      background: rgba(14,165,233,.2);
+      color: var(--accent);
+      border: 1px solid rgba(14,165,233,.4);
+      border-radius: 99px;
+      font-size: 12px; font-weight: 600;
+      padding: 3px 14px; margin-bottom: 12px;
+      letter-spacing: .5px; text-transform: uppercase;
+    }
+    h1.hero { font-size: 52px; font-weight: 800; line-height: 1.1; }
+    h2.slide-title { font-size: 36px; font-weight: 800; margin-bottom: 28px; }
+    h3 { font-size: 18px; font-weight: 700; }
+    p, li { font-size: 15px; line-height: 1.7; color: rgba(255,255,255,.85); }
+    .muted { color: var(--muted); font-size: 13px; }
+
+    /* ── CARDS ── */
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 20px 22px;
+      backdrop-filter: blur(10px);
+    }
+    .card-grid { display: grid; gap: 16px; }
+    .card-grid.cols-2 { grid-template-columns: 1fr 1fr; }
+    .card-grid.cols-3 { grid-template-columns: 1fr 1fr 1fr; }
+    .card-grid.cols-4 { grid-template-columns: 1fr 1fr 1fr 1fr; }
+
+    .stat-num {
+      font-size: 40px; font-weight: 800;
+      background: linear-gradient(135deg, var(--teal), var(--accent));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    }
+    .stat-label { font-size: 13px; color: var(--muted); margin-top: 2px; }
+
+    /* ── ICON BADGE ── */
+    .icon-badge {
+      width: 44px; height: 44px; border-radius: 12px;
+      background: linear-gradient(135deg, var(--blue), var(--teal));
+      display: flex; align-items: center; justify-content: center;
+      font-size: 22px; margin-bottom: 10px; flex-shrink: 0;
+    }
+
+    /* ── FEATURE ROW ── */
+    .feature-row { display: flex; gap: 12px; align-items: flex-start; margin-bottom: 14px; }
+    .feature-dot {
+      width: 10px; height: 10px; border-radius: 50%;
+      background: var(--teal); margin-top: 6px; flex-shrink: 0;
+    }
+
+    /* ── TABLE STYLE ── */
+    table { width: 100%; border-collapse: collapse; font-size: 14px; }
+    th {
+      background: rgba(14,165,233,.25); color: var(--accent);
+      text-align: left; padding: 10px 14px; font-weight: 700;
+      border-bottom: 1px solid var(--border);
+    }
+    td { padding: 9px 14px; border-bottom: 1px solid rgba(255,255,255,.06); }
+    tr:hover td { background: rgba(255,255,255,.04); }
+    .badge {
+      display: inline-block; border-radius: 6px; padding: 2px 10px;
+      font-size: 12px; font-weight: 600;
+    }
+    .badge-blue  { background: rgba(26,86,219,.3);  color: #93c5fd; border: 1px solid rgba(26,86,219,.5); }
+    .badge-green { background: rgba(34,197,94,.2);  color: #86efac; border: 1px solid rgba(34,197,94,.4); }
+    .badge-gold  { background: rgba(245,158,11,.2); color: #fcd34d; border: 1px solid rgba(245,158,11,.4); }
+
+    /* ── MEMBER CARD ── */
+    .member-avatar {
+      width: 52px; height: 52px; border-radius: 50%;
+      background: linear-gradient(135deg, var(--blue), var(--teal));
+      display: flex; align-items: center; justify-content: center;
+      font-size: 22px; margin-bottom: 10px;
+    }
+    .member-nim { color: var(--accent); font-size: 12px; font-weight: 600; }
+
+    /* ── ERD IMAGE ── */
+    .erd-img {
+      width: 100%; border-radius: 12px;
+      border: 1px solid var(--border);
+      object-fit: contain;
+    }
+
+    /* ── RULE LIST ── */
+    .rule-item {
+      display: flex; gap: 16px; align-items: flex-start;
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 14px; padding: 16px 20px; margin-bottom: 12px;
+    }
+    .rule-num {
+      width: 32px; height: 32px; border-radius: 50%; flex-shrink: 0;
+      background: linear-gradient(135deg, var(--blue), var(--teal));
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 800; font-size: 14px;
+    }
+
+    /* ── HIGHLIGHT ── */
+    .highlight { color: var(--gold); font-weight: 700; }
+    .hl-teal   { color: var(--accent); font-weight: 700; }
+
+    /* ── FLOW DIAGRAM ── */
+    .flow { display: flex; align-items: center; gap: 0; flex-wrap: wrap; }
+    .flow-step {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 12px; padding: 14px 18px; text-align: center;
+      flex: 1; min-width: 100px;
+    }
+    .flow-arrow { font-size: 22px; color: var(--teal); padding: 0 6px; flex-shrink: 0; }
+
+    /* ── NAVIGATION ── */
+    .nav {
+      position: fixed; bottom: 0; left: 0; right: 0;
+      display: flex; align-items: center; justify-content: center;
+      gap: 16px; padding: 14px 24px;
+      background: rgba(13,27,62,.9);
+      border-top: 1px solid var(--border);
+      backdrop-filter: blur(12px);
+      z-index: 100;
+    }
+    .nav-btn {
+      background: var(--card); border: 1px solid var(--border);
+      color: var(--white); border-radius: 10px;
+      padding: 8px 20px; font-size: 14px; font-weight: 600;
+      cursor: pointer; transition: all .2s;
+      font-family: inherit;
+    }
+    .nav-btn:hover { background: rgba(14,165,233,.25); border-color: var(--teal); }
+    .nav-btn:disabled { opacity: .3; cursor: not-allowed; }
+    .slide-counter { font-size: 14px; color: var(--muted); min-width: 80px; text-align: center; }
+
+    .dot-nav { display: flex; gap: 6px; }
+    .dot {
+      width: 8px; height: 8px; border-radius: 50%;
+      background: rgba(255,255,255,.25); cursor: pointer; transition: all .25s;
+    }
+    .dot.active { background: var(--teal); width: 22px; border-radius: 4px; }
+
+    /* slide numbering */
+    .slide-num-badge {
+      position: absolute; top: 20px; right: 24px;
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 8px; padding: 4px 12px;
+      font-size: 12px; color: var(--muted); font-weight: 600;
+    }
+
+    /* ── COVER SPECIAL ── */
+    #s1 {
+      background: radial-gradient(ellipse at 30% 50%, rgba(26,86,219,.35) 0%, transparent 60%),
+                  radial-gradient(ellipse at 80% 20%, rgba(14,165,233,.2) 0%, transparent 50%),
+                  var(--navy);
+    }
+    .cover-content {
+      flex: 1; display: flex; flex-direction: column;
+      justify-content: center; padding: 0 72px;
+    }
+    .cover-subtitle { font-size: 18px; color: rgba(255,255,255,.65); margin-top: 16px; max-width: 600px; }
+    .cover-divider {
+      width: 80px; height: 4px; border-radius: 2px;
+      background: linear-gradient(90deg, var(--blue), var(--teal));
+      margin: 24px 0;
+    }
+    .cover-meta { display: flex; gap: 32px; margin-top: 8px; flex-wrap: wrap; }
+    .cover-meta-item { display: flex; flex-direction: column; gap: 2px; }
+    .cover-meta-label { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; }
+    .cover-meta-val { font-size: 15px; font-weight: 700; color: var(--white); }
+
+    /* ── THANK YOU ── */
+    #s9 { background:
+      radial-gradient(ellipse at 70% 40%, rgba(14,165,233,.25) 0%, transparent 60%),
+      radial-gradient(ellipse at 20% 80%, rgba(245,158,11,.15) 0%, transparent 50%),
+      var(--navy);
+    }
+    .ty-center { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
+    .ty-emoji { font-size: 64px; margin-bottom: 16px; }
+  </style>
+</head>
+<body>
+
+<div class="deck" id="deck">
+
+  <!-- ══════════════════════════════════════════
+       SLIDE 1 — COVER
+  ══════════════════════════════════════════ -->
+  <div class="slide active" id="s1">
+    <div class="top-bar"></div>
+    <div class="cover-content">
+      <span class="chip">UTS Praktikum – Manajemen Sistem Informasi</span>
+      <h1 class="hero">Sistem Peminjaman<br>Alat Laboratorium</h1>
+      <div class="cover-divider"></div>
+      <p class="cover-subtitle">Aplikasi web berbasis <span class="hl-teal">Laravel 12 MVC</span> dengan sistem multi-role untuk pengelolaan peminjaman alat laboratorium secara digital.</p>
+      <div class="cover-meta" style="margin-top: 32px;">
+        <div class="cover-meta-item">
+          <span class="cover-meta-label">Kelompok</span>
+          <span class="cover-meta-val">6</span>
+        </div>
+        <div class="cover-meta-item">
+          <span class="cover-meta-label">Teknologi</span>
+          <span class="cover-meta-val">Laravel 12 + MySQL + Bootstrap 5</span>
+        </div>
+        <div class="cover-meta-item">
+          <span class="cover-meta-label">Mata Kuliah</span>
+          <span class="cover-meta-val">Manajemen Sistem Informasi</span>
+        </div>
+      </div>
+    </div>
+    <span class="slide-num-badge">1 / 9</span>
+  </div>
+
+  <!-- ══════════════════════════════════════════
+       SLIDE 2 — ANGGOTA KELOMPOK
+  ══════════════════════════════════════════ -->
+  <div class="slide" id="s2">
+    <div class="top-bar"></div>
+    <div class="slide-inner">
+      <span class="chip">Tim Pengembang</span>
+      <h2 class="slide-title">Anggota Kelompok 6</h2>
+      <div class="card-grid cols-3" style="flex:1; align-content:center;">
+        <div class="card" style="text-align:center; padding: 28px 20px;">
+          <div class="member-avatar" style="margin: 0 auto 12px;">🧑‍💻</div>
+          <div class="member-nim">24051130084</div>
+          <h3 style="margin: 6px 0;">Lian Rosyid Alamzah</h3>
+          <p style="font-size:13px; margin-top:8px; color:var(--muted);">Database Migrations, Seeder & Modul Admin: <span class="hl-teal">Barang & Kategori</span></p>
+          <div class="badge badge-blue" style="margin-top:12px;">Database & Admin Panel</div>
+        </div>
+        <div class="card" style="text-align:center; padding: 28px 20px;">
+          <div class="member-avatar" style="margin: 0 auto 12px;">👨‍💻</div>
+          <div class="member-nim">24051130094</div>
+          <h3 style="margin: 6px 0;">Aditya Danu Marizta</h3>
+          <p style="font-size:13px; margin-top:8px; color:var(--muted);">Modul Transaksi Inti: <span class="hl-teal">Peminjaman, Pengembalian & Logika Denda</span></p>
+          <div class="badge badge-gold" style="margin-top:12px;">Business Logic & Transaksi</div>
+        </div>
+        <div class="card" style="text-align:center; padding: 28px 20px;">
+          <div class="member-avatar" style="margin: 0 auto 12px;">🧑‍🎨</div>
+          <div class="member-nim">24051130103</div>
+          <h3 style="margin: 6px 0;">M. Ghafur Amanu P. W.</h3>
+          <p style="font-size:13px; margin-top:8px; color:var(--muted);">Autentikasi & Portal User: <span class="hl-teal">Auth, Role Middleware & Views</span></p>
+          <div class="badge badge-green" style="margin-top:12px;">Auth & Frontend</div>
+        </div>
+      </div>
+    </div>
+    <span class="slide-num-badge">2 / 9</span>
+  </div>
+
+  <!-- ══════════════════════════════════════════
+       SLIDE 3 — DESKRIPSI SISTEM
+  ══════════════════════════════════════════ -->
+  <div class="slide" id="s3">
+    <div class="top-bar"></div>
+    <div class="slide-inner">
+      <span class="chip">Gambaran Sistem</span>
+      <h2 class="slide-title">Deskripsi Sistem</h2>
+      <div class="card-grid cols-2" style="flex:1; align-content:center; gap:20px;">
+        <div>
+          <p style="margin-bottom: 18px; font-size: 15px; line-height:1.8;">Sistem Informasi Manajemen Peminjaman Laboratorium dirancang dengan arsitektur <span class="hl-teal">MVC (Model-View-Controller)</span> menggunakan framework <span class="highlight">Laravel 12</span>, dengan pemisahan hak akses menjadi <strong>2 role</strong>:</p>
+          <div class="card" style="margin-bottom: 14px;">
+            <div style="display:flex; gap:12px; align-items:flex-start;">
+              <div class="icon-badge">🔑</div>
+              <div>
+                <h3>Admin (Petugas Lab)</h3>
+                <p style="font-size:13px; margin-top:4px;">Dashboard analitik, CRUD Barang & Kategori, verifikasi pengembalian, perhitungan denda otomatis.</p>
+              </div>
+            </div>
+          </div>
+          <div class="card">
+            <div style="display:flex; gap:12px; align-items:flex-start;">
+              <div class="icon-badge">🎓</div>
+              <div>
+                <h3>Mahasiswa (User)</h3>
+                <p style="font-size:13px; margin-top:4px;">Beranda status pinjaman, katalog alat, form pengajuan pinjam, riwayat transaksi & denda pribadi.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="card-grid" style="grid-template-columns:1fr 1fr; align-content: start; gap:12px;">
+          <div class="card" style="text-align:center;">
+            <div class="stat-num">4</div>
+            <div class="stat-label">Tabel Database</div>
+          </div>
+          <div class="card" style="text-align:center;">
+            <div class="stat-num">2</div>
+            <div class="stat-label">Role Pengguna</div>
+          </div>
+          <div class="card" style="text-align:center;">
+            <div class="stat-num">7</div>
+            <div class="stat-label">Controller</div>
+          </div>
+          <div class="card" style="text-align:center;">
+            <div class="stat-num">12+</div>
+            <div class="stat-label">Halaman View</div>
+          </div>
+          <div class="card" style="text-align:center; grid-column: span 2;">
+            <div class="stat-num" style="font-size:28px;">Laravel 12</div>
+            <div class="stat-label">PHP MVC Framework</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <span class="slide-num-badge">3 / 9</span>
+  </div>
+
+  <!-- ══════════════════════════════════════════
+       SLIDE 4 — ATURAN BISNIS
+  ══════════════════════════════════════════ -->
+  <div class="slide" id="s4">
+    <div class="top-bar"></div>
+    <div class="slide-inner">
+      <span class="chip">Logika Sistem</span>
+      <h2 class="slide-title">Aturan Bisnis (Business Rules)</h2>
+      <div style="flex:1; display:flex; flex-direction:column; justify-content:center; gap:0;">
+        <div class="rule-item">
+          <div class="rule-num">1</div>
+          <div>
+            <h3>Denda Keterlambatan</h3>
+            <p style="margin-top:4px;">Pengembalian terlambat <span class="highlight">lebih dari 3 hari</span> dari tanggal rencana kembali dikenakan denda <span class="highlight">Rp2.000 / hari</span> keterlambatan.</p>
+          </div>
+        </div>
+        <div class="rule-item">
+          <div class="rule-num">2</div>
+          <div>
+            <h3>Biaya Perbaikan</h3>
+            <p style="margin-top:4px;">Alat yang dikembalikan dalam kondisi <span class="highlight">rusak</span> dikenakan biaya perbaikan tetap sebesar <span class="highlight">Rp10.000</span>.</p>
+          </div>
+        </div>
+        <div class="rule-item">
+          <div class="rule-num">3</div>
+          <div>
+            <h3>Kalkulasi Otomatis</h3>
+            <p style="margin-top:4px;">Perhitungan denda & biaya perbaikan dilakukan <span class="hl-teal">secara otomatis oleh sistem</span> saat admin memproses pengembalian, menghilangkan potensi kesalahan manual.</p>
+          </div>
+        </div>
+        <div class="rule-item">
+          <div class="rule-num">4</div>
+          <div>
+            <h3>Validasi Stok Real-Time</h3>
+            <p style="margin-top:4px;">Stok barang <span class="hl-teal">otomatis berkurang</span> saat dipinjam dan <span class="hl-teal">bertambah kembali</span> setelah pengembalian dikonfirmasi admin.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <span class="slide-num-badge">4 / 9</span>
+  </div>
+
+  <!-- ══════════════════════════════════════════
+       SLIDE 5 — ERD
+  ══════════════════════════════════════════ -->
+  <div class="slide" id="s5">
+    <div class="top-bar"></div>
+    <div class="slide-inner">
+      <span class="chip">Perancangan Database</span>
+      <h2 class="slide-title">Entity Relationship Diagram (ERD)</h2>
+      <div style="flex:1; display:flex; gap:24px; align-items:center;">
+        <div style="flex:2;">
+          <img class="erd-img" src="erd_sistem_peminjaman_1793028247458.jpg" alt="ERD Sistem Peminjaman" />
+        </div>
+        <div style="flex:1; display:flex; flex-direction:column; gap:12px;">
+          <div class="card">
+            <div style="color:var(--accent); font-weight:700; font-size:13px; margin-bottom:6px;">📋 users</div>
+            <p style="font-size:12px;">Data akun login (mahasiswa & admin). Field <code>role</code> menentukan hak akses.</p>
+          </div>
+          <div class="card">
+            <div style="color:var(--accent); font-weight:700; font-size:13px; margin-bottom:6px;">🏷️ kategoris</div>
+            <p style="font-size:12px;">Kelompok/jenis alat laboratorium (Elektronik, Optik, Komputer, dll.).</p>
+          </div>
+          <div class="card">
+            <div style="color:var(--accent); font-weight:700; font-size:13px; margin-bottom:6px;">🔧 barangs</div>
+            <p style="font-size:12px;">Data inventaris alat lab. Menyimpan stok total & stok tersedia.</p>
+          </div>
+          <div class="card">
+            <div style="color: #fca5a5; font-weight:700; font-size:13px; margin-bottom:6px;">📑 peminjamans</div>
+            <p style="font-size:12px;">Tabel transaksi utama. Mencatat semua data pinjam, kembali, dan denda.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <span class="slide-num-badge">5 / 9</span>
+  </div>
+
+  <!-- ══════════════════════════════════════════
+       SLIDE 6 — FITUR ADMIN
+  ══════════════════════════════════════════ -->
+  <div class="slide" id="s6">
+    <div class="top-bar"></div>
+    <div class="slide-inner">
+      <span class="chip">Panel Admin</span>
+      <h2 class="slide-title">Fitur – Tampilan Admin (Petugas Lab)</h2>
+      <div class="card-grid cols-2" style="flex:1; align-content:center; gap:16px;">
+        <div class="card">
+          <div class="icon-badge">📊</div>
+          <h3>Dashboard Analitik</h3>
+          <p style="font-size:13px; margin-top:6px;">Ringkasan statistik: total barang, kategori, mahasiswa, transaksi aktif, dan rekap total denda terkumpul.</p>
+        </div>
+        <div class="card">
+          <div class="icon-badge">📦</div>
+          <h3>CRUD Data Barang</h3>
+          <p style="font-size:13px; margin-top:6px;">Tambah, edit, hapus data alat laboratorium beserta kode barang, nama, kategori, dan informasi stok.</p>
+        </div>
+        <div class="card">
+          <div class="icon-badge">🏷️</div>
+          <h3>CRUD Kategori</h3>
+          <p style="font-size:13px; margin-top:6px;">Manajemen kategori alat laboratorium untuk pengelompokan inventaris yang lebih terstruktur.</p>
+        </div>
+        <div class="card">
+          <div class="icon-badge">✅</div>
+          <h3>Verifikasi Pengembalian</h3>
+          <p style="font-size:13px; margin-top:6px;">Admin memeriksa kondisi fisik alat (baik/rusak), sistem otomatis menghitung dan mencatat total denda.</p>
+        </div>
+      </div>
+    </div>
+    <span class="slide-num-badge">6 / 9</span>
+  </div>
+
+  <!-- ══════════════════════════════════════════
+       SLIDE 7 — FITUR USER
+  ══════════════════════════════════════════ -->
+  <div class="slide" id="s7">
+    <div class="top-bar"></div>
+    <div class="slide-inner">
+      <span class="chip">Portal Mahasiswa</span>
+      <h2 class="slide-title">Fitur – Tampilan User (Mahasiswa)</h2>
+      <div class="card-grid cols-2" style="flex:1; align-content:center; gap:16px;">
+        <div class="card">
+          <div class="icon-badge">🏠</div>
+          <h3>Beranda & Status</h3>
+          <p style="font-size:13px; margin-top:6px;">Kartu status pinjaman aktif, ringkasan total denda, dan notifikasi peringatan batas waktu pengembalian.</p>
+        </div>
+        <div class="card">
+          <div class="icon-badge">🔍</div>
+          <h3>Katalog Alat</h3>
+          <p style="font-size:13px; margin-top:6px;">Daftar seluruh alat lab dengan pencarian nama/kode dan filter kategori serta ketersediaan stok real-time.</p>
+        </div>
+        <div class="card">
+          <div class="icon-badge">📝</div>
+          <h3>Form Pinjam Alat</h3>
+          <p style="font-size:13px; margin-top:6px;">Pengajuan peminjaman mandiri. Identitas mahasiswa otomatis terkunci ke akun login yang sedang aktif.</p>
+        </div>
+        <div class="card">
+          <div class="icon-badge">📜</div>
+          <h3>Riwayat Peminjaman</h3>
+          <p style="font-size:13px; margin-top:6px;">Histori seluruh transaksi pribadi beserta rincian status, denda keterlambatan, dan biaya perbaikan.</p>
+        </div>
+      </div>
+    </div>
+    <span class="slide-num-badge">7 / 9</span>
+  </div>
+
+  <!-- ══════════════════════════════════════════
+       SLIDE 8 — AKUN DEMO & CARA AKSES
+  ══════════════════════════════════════════ -->
+  <div class="slide" id="s8">
+    <div class="top-bar"></div>
+    <div class="slide-inner">
+      <span class="chip">Demo & Akses</span>
+      <h2 class="slide-title">Akun Demo & Cara Menjalankan</h2>
+      <div style="flex:1; display:flex; gap:24px; align-items:center;">
+        <div style="flex:1.2;">
+          <h3 style="margin-bottom:12px;">🔐 Akun Pengujian</h3>
+          <table>
+            <thead>
+              <tr>
+                <th>Peran</th>
+                <th>Username / NIM</th>
+                <th>Password</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><span class="badge badge-gold">Admin</span></td>
+                <td><code>admin</code></td>
+                <td><code>admin123</code></td>
+              </tr>
+              <tr>
+                <td><span class="badge badge-blue">Mahasiswa</span></td>
+                <td><code>24051130084</code></td>
+                <td><code>123456</code></td>
+              </tr>
+              <tr>
+                <td><span class="badge badge-blue">Mahasiswa</span></td>
+                <td><code>24051130094</code></td>
+                <td><code>123456</code></td>
+              </tr>
+              <tr>
+                <td><span class="badge badge-blue">Mahasiswa</span></td>
+                <td><code>24051130103</code></td>
+                <td><code>123456</code></td>
+              </tr>
+            </tbody>
+          </table>
+          <p style="margin-top:10px; font-size:12px; color: var(--muted);">💡 Halaman login sudah dilengkapi tombol pintas untuk mengisi akun demo secara langsung.</p>
+        </div>
+        <div style="flex:1;">
+          <h3 style="margin-bottom:12px;">🚀 Cara Menjalankan</h3>
+          <div class="card" style="margin-bottom:12px;">
+            <div style="color: var(--accent); font-weight:700; font-size:13px; margin-bottom:6px;">Opsi A — XAMPP</div>
+            <p style="font-size:13px;">Pastikan Apache & MySQL aktif, lalu buka:</p>
+            <code style="display:block; background:rgba(0,0,0,.3); padding:8px 12px; border-radius:8px; margin-top:8px; font-size:12px; color: #7dd3fc;">http://localhost/UTS MSI Kelompok 6/</code>
+          </div>
+          <div class="card">
+            <div style="color: var(--accent); font-weight:700; font-size:13px; margin-bottom:6px;">Opsi B — Artisan Serve</div>
+            <code style="display:block; background:rgba(0,0,0,.3); padding:8px 12px; border-radius:8px; margin-top:4px; font-size:12px; color: #7dd3fc;">php artisan serve</code>
+            <p style="font-size:13px; margin-top:8px;">Lalu akses: <code style="color:#7dd3fc;">http://127.0.0.1:8000</code></p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <span class="slide-num-badge">8 / 9</span>
+  </div>
+
+  <!-- ══════════════════════════════════════════
+       SLIDE 9 — PENUTUP / THANK YOU
+  ══════════════════════════════════════════ -->
+  <div class="slide" id="s9">
+    <div class="top-bar"></div>
+    <div class="slide-inner">
+      <div class="ty-center">
+        <div class="ty-emoji">🙏</div>
+        <span class="chip">Penutup</span>
+        <h1 class="hero" style="font-size: 56px; margin: 12px 0;">Terima Kasih!</h1>
+        <p style="font-size: 17px; max-width: 500px; margin: 16px auto; color: rgba(255,255,255,.7);">Kami siap melakukan <span class="hl-teal">live demo</span> aplikasi dan menjawab pertanyaan yang ada.</p>
+        <div class="cover-divider" style="margin: 28px auto;"></div>
+        <div style="display:flex; gap:20px; justify-content:center; flex-wrap:wrap;">
+          <div class="card" style="text-align:center; padding: 12px 24px;">
+            <div style="font-size:13px; color:var(--muted);">Kelompok</div>
+            <div style="font-weight:800; font-size:22px;">6</div>
+          </div>
+          <div class="card" style="text-align:center; padding: 12px 24px;">
+            <div style="font-size:13px; color:var(--muted);">Framework</div>
+            <div style="font-weight:800; font-size:22px;">Laravel 12</div>
+          </div>
+          <div class="card" style="text-align:center; padding: 12px 24px;">
+            <div style="font-size:13px; color:var(--muted);">Mata Kuliah</div>
+            <div style="font-weight:800; font-size:22px;">MSI</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <span class="slide-num-badge">9 / 9</span>
+  </div>
+
+</div><!-- /deck -->
+
+<!-- ── NAVIGATION ── -->
+<nav class="nav">
+  <button class="nav-btn" id="prevBtn" onclick="changeSlide(-1)" disabled>← Sebelumnya</button>
+  <div class="dot-nav" id="dotNav"></div>
+  <span class="slide-counter" id="counter">1 / 9</span>
+  <button class="nav-btn" id="nextBtn" onclick="changeSlide(1)">Berikutnya →</button>
+</nav>
+
+<script>
+  const slides = document.querySelectorAll('.slide');
+  const dotNav = document.getElementById('dotNav');
+  let current = 0;
+
+  // build dots
+  slides.forEach((_, i) => {
+    const d = document.createElement('div');
+    d.className = 'dot' + (i === 0 ? ' active' : '');
+    d.onclick = () => goTo(i);
+    dotNav.appendChild(d);
+  });
+
+  function goTo(n) {
+    slides[current].classList.remove('active');
+    slides[current].classList.add('prev');
+    setTimeout(() => slides[current].classList.remove('prev'), 500);
+
+    current = n;
+    slides[current].classList.add('active');
+
+    // dots
+    document.querySelectorAll('.dot').forEach((d, i) => d.classList.toggle('active', i === current));
+
+    // counter & buttons
+    document.getElementById('counter').textContent = (current + 1) + ' / ' + slides.length;
+    document.getElementById('prevBtn').disabled = current === 0;
+    document.getElementById('nextBtn').disabled = current === slides.length - 1;
+  }
+
+  function changeSlide(dir) { goTo(Math.max(0, Math.min(slides.length - 1, current + dir))); }
+
+  // keyboard
+  document.addEventListener('keydown', e => {
+    if (e.key === 'ArrowRight' || e.key === 'ArrowDown') changeSlide(1);
+    if (e.key === 'ArrowLeft'  || e.key === 'ArrowUp')   changeSlide(-1);
+  });
+</script>
+</body>
+</html>
