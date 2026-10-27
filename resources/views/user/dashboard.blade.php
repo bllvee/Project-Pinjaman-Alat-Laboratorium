@@ -3,186 +3,211 @@
 @section('title', 'Beranda Mahasiswa')
 
 @section('content')
-<!-- Hero Welcome Mahasiswa -->
-<div class="hero-welcome">
-    <div class="d-flex flex-wrap justify-content-between align-items-center gap-3">
-        <div>
-            <h4 class="mb-1"><i class="fa fa-graduation-cap me-2"></i> Selamat Datang, {{ $user->name }}!</h4>
-            <p class="mb-0 opacity-75 small">
-                NIM: <strong>{{ $user->nim ?? $user->username }}</strong> &bull;
-                Prodi: <strong>{{ $user->prodi ?? 'Teknologi Informasi' }}</strong> &bull;
-                No. HP: <strong>{{ $user->no_hp ?? '-' }}</strong>
-            </p>
-        </div>
-        <div class="d-flex gap-2">
-            <a href="{{ route('user.barang.index') }}" class="btn btn-light btn-sm fw-semibold">
-                <i class="fa fa-boxes-stacked me-1 text-success"></i> Lihat Katalog
-            </a>
-            <a href="{{ route('user.peminjaman.create') }}" class="btn btn-warning btn-sm fw-semibold text-dark">
-                <i class="fa fa-hand-holding-hand me-1"></i> Ajukan Pinjam
-            </a>
-        </div>
-    </div>
-</div>
+<div class="user-dashboard-page">
 
-<!-- Kartu Statistik Pribadi -->
-<div class="row g-3 mb-4">
-    <div class="col-md-4">
-        <div class="card-stat">
-            <p>Alat Sedang Dipinjam</p>
-            <h2 class="text-warning">{{ $sedangDipinjam }}</h2>
-            <div class="text-muted small mt-1">Harap perhatikan tanggal pengembalian</div>
-        </div>
-    </div>
-    <div class="col-md-4">
-        <div class="card-stat">
-            <p>Peminjaman Selesai</p>
-            <h2 class="text-success">{{ $peminjamanSelesai }}</h2>
-            <div class="text-muted small mt-1">Total transaksi yang sudah dikembalikan</div>
-        </div>
-    </div>
-    <div class="col-md-4">
-        <div class="card-stat">
-            <p>Total Denda Tercatat</p>
-            <h2 class="{{ $totalDenda > 0 ? 'text-danger' : 'text-secondary' }}">
-                Rp {{ number_format($totalDenda, 0, ',', '.') }}
-            </h2>
-            <div class="text-muted small mt-1">Akumulasi denda keterlambatan/kerusakan</div>
-        </div>
-    </div>
-</div>
+    <!-- Hero Welcome Banner -->
+    <div class="sipinjam-card mb-4 p-4">
+        <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3">
+            <div class="d-flex align-items-center gap-3">
+                <div class="user-avatar-circle" style="width: 54px; height: 54px; font-size: 20px;">
+                    {{ strtoupper(substr($user->name, 0, 2)) }}
+                </div>
+                <div>
+                    <div class="d-flex align-items-center gap-2 flex-wrap">
+                        <h1 class="page-title mb-0 fs-4">Selamat Datang, {{ $user->name }}!</h1>
+                        <span class="user-role-badge">Mahasiswa</span>
+                    </div>
+                    <p class="text-secondary small mb-0 mt-1">
+                        NIM: <strong class="text-dark">{{ $user->nim ?? $user->username }}</strong> &bull; 
+                        Prodi: <strong class="text-dark">{{ $user->prodi ?? 'Teknologi Informasi' }}</strong> &bull; 
+                        No. HP: <strong class="text-dark">{{ $user->no_hp ?? '-' }}</strong>
+                    </p>
+                </div>
+            </div>
 
-<!-- Ketentuan Denda UTS -->
-<div class="alert alert-warning border-0 shadow-sm d-flex align-items-center gap-3 mb-4">
-    <i class="fa fa-triangle-exclamation fs-3 text-warning"></i>
-    <div class="small">
-        <strong>Ketentuan Pengembalian Alat Lab:</strong>
-        Keterlambatan lebih dari 3 hari dari tanggal rencana kembali dikenakan denda keterlambatan <strong>Rp2.000 / hari</strong>.
-        Apabila alat dikembalikan dalam kondisi rusak, dikenakan biaya perbaikan tetap sebesar <strong>Rp10.000</strong>.
-    </div>
-</div>
-
-<!-- Tabel Pinjaman Aktif -->
-<div class="table-wrap mb-4">
-    <div class="d-flex justify-content-between align-items-center mb-3">
-        <h5 class="mb-0 text-dark"><i class="fa fa-clock text-warning me-2"></i> Alat Yang Sedang Anda Pinjam</h5>
-        <span class="badge bg-warning text-dark">{{ $sedangDipinjam }} alat aktif</span>
-    </div>
-
-    @if ($peminjamanAktif->isEmpty())
-        <div class="text-center py-4 text-muted">
-            <i class="fa fa-circle-check fs-1 text-success mb-2 d-block"></i>
-            Saat ini Anda tidak memiliki pinjaman alat yang sedang berjalan.
-            <div class="mt-2">
-                <a href="{{ route('user.peminjaman.create') }}" class="btn btn-sm btn-primary-lab text-white">
-                    <i class="fa fa-plus me-1"></i> Pinjam Alat Sekarang
+            <div class="d-flex align-items-center gap-2">
+                <a href="{{ route('user.barang.index') }}" class="btn-sipinjam-outline">
+                    <i class="bi bi-box-seam"></i>
+                    <span>Katalog Alat</span>
+                </a>
+                <a href="{{ route('user.peminjaman.create') }}" class="btn-sipinjam-primary">
+                    <i class="bi bi-plus-lg"></i>
+                    <span>Ajukan Pinjam</span>
                 </a>
             </div>
         </div>
-    @else
+    </div>
+
+    <!-- 3 Kartu Statistik Mahasiswa -->
+    <div class="row g-3 mb-4">
+        <!-- 1. Sedang Dipinjam -->
+        <div class="col-12 col-md-4">
+            <div class="stat-card">
+                <div class="stat-icon-box stat-icon-teal">
+                    <i class="bi bi-arrow-repeat"></i>
+                </div>
+                <div class="stat-content">
+                    <span class="stat-label">SEDANG DIPINJAM</span>
+                    <span class="stat-value">{{ $sedangDipinjam }}</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- 2. Peminjaman Selesai -->
+        <div class="col-12 col-md-4">
+            <div class="stat-card">
+                <div class="stat-icon-box" style="background-color: var(--status-success-bg); color: var(--status-success-text);">
+                    <i class="bi bi-check2-circle"></i>
+                </div>
+                <div class="stat-content">
+                    <span class="stat-label">SELESAI DIKEMBALIKAN</span>
+                    <span class="stat-value">{{ $peminjamanSelesai }}</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- 3. Total Denda -->
+        <div class="col-12 col-md-4">
+            <div class="stat-card">
+                <div class="stat-icon-box stat-icon-red">
+                    <i class="bi bi-wallet2"></i>
+                </div>
+                <div class="stat-content">
+                    <span class="stat-label">TOTAL DENDA ANDA</span>
+                    <span class="stat-value" style="font-size: 22px;">Rp {{ number_format($totalDenda, 0, ',', '.') }}</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Alat yang Sedang Dipinjam Aktif -->
+    @if ($peminjamanAktif->count() > 0)
+        <div class="sipinjam-card mb-4">
+            <div class="card-title-header mb-3">
+                <h3 class="fs-6 fw-bold text-dark d-flex align-items-center gap-2 mb-0">
+                    <i class="bi bi-clock-history text-teal fs-5"></i>
+                    <span>Alat yang Sedang Anda Pinjam (Wajib Dikembalikan)</span>
+                </h3>
+            </div>
+
+            <div class="row g-3">
+                @foreach ($peminjamanAktif as $item)
+                    @php
+                        $tglRencana = \Carbon\Carbon::parse($item->tanggal_rencana_kembali)->startOfDay();
+                        $hariIni = \Carbon\Carbon::now()->startOfDay();
+                        $isTerlambat = $hariIni->gt($tglRencana);
+                        $selisihHari = $hariIni->diffInDays($tglRencana);
+                    @endphp
+                    <div class="col-12 col-md-6">
+                        <div class="p-3 rounded-3 border bg-light d-flex align-items-center justify-content-between">
+                            <div class="d-flex align-items-center gap-3">
+                                <div class="stat-icon-box stat-icon-teal" style="width: 44px; height: 44px; font-size: 20px;">
+                                    <i class="bi bi-tools"></i>
+                                </div>
+                                <div>
+                                    <h4 class="fs-6 fw-bold text-dark mb-0">{{ $item->barang->nama_barang ?? 'Barang Lab' }}</h4>
+                                    <span class="text-secondary small">ID: {{ $item->barang->kode_barang ?? '-' }}</span>
+                                </div>
+                            </div>
+                            <div class="text-end">
+                                <span class="d-block text-secondary small">Batas Tenggat:</span>
+                                <strong class="{{ $isTerlambat ? 'text-danger' : 'text-teal' }}">
+                                    {{ $tglRencana->translatedFormat('d M Y') }}
+                                </strong>
+                                @if ($isTerlambat)
+                                    <span class="badge-pill status-pill-danger d-block mt-1">Terlambat {{ $selisihHari }} hari</span>
+                                @else
+                                    <span class="badge-pill status-pill-info d-block mt-1">Sisa {{ $selisihHari }} hari</span>
+                                @endif
+                            </div>
+                        </div>
+                    </div>
+                @endforeach
+            </div>
+        </div>
+    @endif
+
+    <!-- Tabel Riwayat Peminjaman Terbaru -->
+    <div class="sipinjam-table-card">
+        <div class="card-header-bar">
+            <div>
+                <h3 class="mb-0 fs-5 fw-bold text-dark">Riwayat Peminjaman Terakhir</h3>
+                <span class="text-secondary small">Pantau status transaksi instrumen yang pernah Anda gunakan</span>
+            </div>
+            <a href="{{ route('user.peminjaman.index') }}" class="text-teal text-decoration-none fw-semibold small d-inline-flex align-items-center gap-1">
+                <span>Lihat Semua Riwayat</span>
+                <i class="bi bi-chevron-right"></i>
+            </a>
+        </div>
+
         <div class="table-responsive">
-            <table class="table table-hover align-middle mb-0">
+            <table class="table-sipinjam">
                 <thead>
                     <tr>
-                        <th>No</th>
-                        <th>Barang Lab</th>
-                        <th>Tanggal Pinjam</th>
-                        <th>Batas Rencana Kembali</th>
-                        <th>Status Waktu</th>
+                        <th style="width: 35%;">BARANG LAB</th>
+                        <th style="width: 20%;">TGL PINJAM</th>
+                        <th style="width: 20%;">ESTIMASI KEMBALI</th>
+                        <th style="width: 15%;">STATUS</th>
+                        <th class="text-end" style="width: 10%;">DENDA</th>
                     </tr>
                 </thead>
                 <tbody>
-                    @php
-                        $hariIni = \Carbon\Carbon::now()->startOfDay();
-                    @endphp
-                    @foreach ($peminjamanAktif as $index => $r)
-                        @php
-                            $rencana = \Carbon\Carbon::parse($r->tanggal_rencana_kembali)->startOfDay();
-                            $selisih = $hariIni->diffInDays($rencana, false);
-                        @endphp
+                    @forelse ($riwayatTerbaru as $p)
                         <tr>
-                            <td>{{ $index + 1 }}</td>
+                            <!-- Barang -->
                             <td>
-                                <strong>{{ $r->barang->nama_barang }}</strong>
-                                <div class="text-muted small">Kode: {{ $r->barang->kode_barang }}</div>
+                                <div class="item-td-cell">
+                                    <span class="item-name">{{ $p->barang->nama_barang ?? 'Barang Lab' }}</span>
+                                    <span class="item-code">{{ $p->barang->kode_barang ?? '-' }}</span>
+                                </div>
                             </td>
-                            <td>{{ \Carbon\Carbon::parse($r->tanggal_pinjam)->format('d-m-Y') }}</td>
-                            <td><strong>{{ \Carbon\Carbon::parse($r->tanggal_rencana_kembali)->format('d-m-Y') }}</strong></td>
+
+                            <!-- Tanggal Pinjam -->
                             <td>
-                                @if ($selisih < 0)
-                                    <span class="badge bg-danger">Terlambat {{ abs($selisih) }} hari</span>
-                                @elseif ($selisih === 0)
-                                    <span class="badge bg-warning text-dark">Batas hari ini!</span>
+                                <span class="text-dark fw-medium">
+                                    {{ \Carbon\Carbon::parse($p->tanggal_pinjam)->translatedFormat('d M Y') }}
+                                </span>
+                            </td>
+
+                            <!-- Estimasi Kembali -->
+                            <td>
+                                <span class="text-dark">
+                                    {{ \Carbon\Carbon::parse($p->tanggal_rencana_kembali)->translatedFormat('d M Y') }}
+                                </span>
+                            </td>
+
+                            <!-- Status -->
+                            <td>
+                                @if ($p->status === 'dipinjam')
+                                    <span class="status-pill status-dipinjam">Dipinjam</span>
+                                @elseif ($p->status === 'dikembalikan')
+                                    <span class="status-pill status-dikembalikan">Kembali</span>
                                 @else
-                                    <span class="badge bg-success">Tersisa {{ $selisih }} hari lagi</span>
+                                    <span class="status-pill status-terlambat">{{ ucfirst($p->status) }}</span>
+                                @endif
+                            </td>
+
+                            <!-- Denda -->
+                            <td class="text-end">
+                                @if ($p->total_denda > 0)
+                                    <strong class="text-danger">Rp {{ number_format($p->total_denda, 0, ',', '.') }}</strong>
+                                @else
+                                    <span class="text-muted small">Rp 0</span>
                                 @endif
                             </td>
                         </tr>
-                    @endforeach
+                    @empty
+                        <tr>
+                            <td colspan="5" class="text-center py-5 text-secondary">
+                                <i class="bi bi-inbox fs-1 d-block mb-2 text-muted"></i>
+                                <span class="fw-medium">Anda belum memiliki riwayat peminjaman.</span>
+                            </td>
+                        </tr>
+                    @endforelse
                 </tbody>
             </table>
         </div>
-    @endif
-</div>
-
-<!-- Ringkasan Riwayat Terakhir -->
-<div class="table-wrap">
-    <div class="d-flex justify-content-between align-items-center mb-3">
-        <h5 class="mb-0 text-dark"><i class="fa fa-history text-secondary me-2"></i> Riwayat Transaksi Terakhir</h5>
-        <a href="{{ route('user.peminjaman.index') }}" class="btn btn-sm btn-outline-secondary">Lihat Semua Riwayat</a>
     </div>
 
-    <div class="table-responsive">
-        <table class="table table-hover align-middle mb-0">
-            <thead>
-                <tr>
-                    <th>No</th>
-                    <th>Nama Barang</th>
-                    <th>Tgl Pinjam</th>
-                    <th>Tgl Kembali Aktual</th>
-                    <th>Kondisi</th>
-                    <th>Status</th>
-                    <th>Total Denda</th>
-                </tr>
-            </thead>
-            <tbody>
-                @forelse ($riwayatTerbaru as $index => $row)
-                    <tr>
-                        <td>{{ $index + 1 }}</td>
-                        <td>{{ $row->barang->nama_barang }}</td>
-                        <td>{{ \Carbon\Carbon::parse($row->tanggal_pinjam)->format('d-m-Y') }}</td>
-                        <td>
-                            {{ $row->tanggal_kembali_aktual ? \Carbon\Carbon::parse($row->tanggal_kembali_aktual)->format('d-m-Y') : '-' }}
-                        </td>
-                        <td>
-                            @if ($row->kondisi_saat_kembali)
-                                <span class="badge {{ $row->kondisi_saat_kembali === 'rusak' ? 'badge-kondisi-rusak' : 'badge-kondisi-baik' }}">
-                                    {{ ucfirst($row->kondisi_saat_kembali) }}
-                                </span>
-                            @else
-                                <span class="text-muted">-</span>
-                            @endif
-                        </td>
-                        <td>
-                            <span class="badge {{ $row->status === 'dipinjam' ? 'badge-status-dipinjam' : 'badge-status-dikembalikan' }}">
-                                {{ ucfirst($row->status) }}
-                            </span>
-                        </td>
-                        <td>
-                            @if ($row->total_denda > 0)
-                                <strong class="text-danger">Rp {{ number_format($row->total_denda, 0, ',', '.') }}</strong>
-                            @else
-                                <span class="text-muted">Rp 0</span>
-                            @endif
-                        </td>
-                    </tr>
-                @empty
-                    <tr>
-                        <td colspan="7" class="text-center text-muted py-3">Belum ada riwayat transaksi.</td>
-                    </tr>
-                @endforelse
-            </tbody>
-        </table>
-    </div>
 </div>
 @endsection

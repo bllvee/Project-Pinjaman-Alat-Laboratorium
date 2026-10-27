@@ -1,113 +1,139 @@
 @extends('user.layouts.app')
 
-@section('title', 'Katalog Barang Lab')
+@section('title', 'Katalog Peralatan Laboratorium')
 
 @section('content')
-<div class="d-flex flex-wrap justify-content-between align-items-center mb-4 gap-2">
-    <div>
-        <h3 class="page-title mb-0"><i class="fa fa-boxes-stacked me-2"></i> Katalog Peralatan Laboratorium</h3>
-        <p class="text-muted small mb-0">Cari peralatan yang dibutuhkan dan ajukan peminjaman secara mandiri.</p>
+<div class="user-barang-page">
+
+    <!-- Header Halaman -->
+    <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-3">
+        <div>
+            <h1 class="page-title">Katalog Alat Laboratorium</h1>
+            <p class="page-subtitle">Eksplorasi instrumen praktikum yang tersedia dan ajukan peminjaman secara mandiri.</p>
+        </div>
+        <a href="{{ route('user.peminjaman.create') }}" class="btn-sipinjam-primary">
+            <i class="bi bi-plus-lg"></i>
+            <span>Form Ajukan Pinjam</span>
+        </a>
     </div>
-    <a href="{{ route('user.peminjaman.create') }}" class="btn btn-primary-lab text-white">
-        <i class="fa fa-plus me-1"></i> Form Ajukan Pinjam
-    </a>
-</div>
 
-<!-- Filter & Search Bar -->
-<div class="card border-0 shadow-sm p-3 mb-4 rounded-3">
-    <form method="GET" action="{{ route('user.barang.index') }}" class="row g-2 align-items-center">
-        <div class="col-md-5">
-            <div class="input-group">
-                <span class="input-group-text bg-white text-muted"><i class="fa fa-magnifying-glass"></i></span>
-                <input type="text" name="search" class="form-control" placeholder="Cari nama atau kode barang..." 
-                       value="{{ request('search') }}">
-            </div>
-        </div>
-        <div class="col-md-4">
-            <select name="kategori_id" class="form-select">
-                <option value="">-- Semua Kategori --</option>
-                @foreach ($kategoris as $k)
-                    <option value="{{ $k->id }}" {{ request('kategori_id') == $k->id ? 'selected' : '' }}>
-                        {{ $k->nama_kategori }}
-                    </option>
-                @endforeach
-            </select>
-        </div>
-        <div class="col-md-3 d-flex gap-2">
-            <button type="submit" class="btn btn-primary-lab text-white w-100">
-                <i class="fa fa-filter me-1"></i> Filter
-            </button>
-            @if(request('search') || request('kategori_id'))
-                <a href="{{ route('user.barang.index') }}" class="btn btn-outline-secondary">Reset</a>
-            @endif
-        </div>
-    </form>
-</div>
-
-<!-- Grid Kartu Barang -->
-<div class="row g-3">
-    @forelse ($barangs as $b)
-        @php
-            $bisaPinjam = $b->stok_tersedia > 0;
-        @endphp
-        <div class="col-md-6 col-lg-4">
-            <div class="tool-card p-3 shadow-sm">
-                <div class="d-flex align-items-center gap-3 mb-3">
-                    <div class="tool-icon">
-                        <i class="fa fa-flask"></i>
-                    </div>
-                    <div class="flex-grow-1 overflow-hidden">
-                        <span class="badge bg-light text-dark border mb-1">{{ $b->kategori->nama_kategori ?? 'Umum' }}</span>
-                        <h6 class="fw-bold mb-0 text-truncate" title="{{ $b->nama_barang }}">
-                            {{ $b->nama_barang }}
-                        </h6>
-                        <small class="text-muted">Kode: {{ $b->kode_barang }}</small>
-                    </div>
+    <!-- Filter & Pencarian -->
+    <div class="sipinjam-card mb-4 p-3">
+        <form method="GET" action="{{ route('user.barang.index') }}" class="row g-2 align-items-center">
+            <!-- Search -->
+            <div class="col-12 col-md-5">
+                <div class="input-icon-wrapper">
+                    <i class="bi bi-search"></i>
+                    <input type="text" 
+                           name="search" 
+                           class="form-control-custom" 
+                           placeholder="Cari nama alat, spesifikasi, atau kode..." 
+                           value="{{ request('search') }}">
                 </div>
+            </div>
 
-                @if($b->deskripsi)
-                    <p class="text-muted small mb-2 text-truncate" title="{{ $b->deskripsi }}">
-                        {{ $b->deskripsi }}
-                    </p>
+            <!-- Filter Kategori -->
+            <div class="col-12 col-md-4">
+                <select name="kategori_id" class="form-control-custom" onchange="this.form.submit()">
+                    <option value="">Semua Kategori</option>
+                    @foreach ($kategoris as $k)
+                        <option value="{{ $k->id }}" {{ request('kategori_id') == $k->id ? 'selected' : '' }}>
+                            {{ $k->nama_kategori }}
+                        </option>
+                    @endforeach
+                </select>
+            </div>
+
+            <!-- Tombol Aksi -->
+            <div class="col-12 col-md-3 d-flex gap-2">
+                <button type="submit" class="btn-sipinjam-primary w-100">
+                    <i class="bi bi-filter"></i>
+                    <span>Filter</span>
+                </button>
+                @if (request()->hasAny(['search', 'kategori_id']))
+                    <a href="{{ route('user.barang.index') }}" class="btn-sipinjam-outline" title="Reset">
+                        <i class="bi bi-arrow-counterclockwise"></i>
+                    </a>
                 @endif
+            </div>
+        </form>
+    </div>
 
-                <div class="d-flex justify-content-between align-items-center border-top border-bottom py-2 my-2 small">
-                    <span class="text-muted">Status Ketersediaan:</span>
-                    @if ($bisaPinjam)
-                        <span class="badge bg-success-subtle text-success border border-success fw-semibold">
-                            <i class="fa fa-check me-1"></i> Tersedia ({{ $b->stok_tersedia }} / {{ $b->stok_total }})
-                        </span>
-                    @else
-                        <span class="badge bg-danger-subtle text-danger border border-danger fw-semibold">
-                            <i class="fa fa-times me-1"></i> Stok Habis (0 / {{ $b->stok_total }})
-                        </span>
-                    @endif
-                </div>
+    <!-- Grid Kartu Alat Laboratorium (3 Kolom) -->
+    <div class="row g-3 mb-4">
+        @forelse ($barangs as $barang)
+            <div class="col-12 col-md-6 col-lg-4">
+                <div class="sipinjam-card h-100 d-flex flex-column justify-content-between p-4">
+                    <div>
+                        <!-- Header Kartu: Kategori & Status Stok -->
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <span class="badge-pill" style="background-color: var(--teal-soft); color: var(--teal-primary); border: 1px solid var(--teal-border); font-size: 11px;">
+                                {{ $barang->kategori->nama_kategori ?? 'Umum' }}
+                            </span>
+                            @if ($barang->stok_tersedia > 0)
+                                <span class="status-pill status-tersedia">
+                                    Tersedia {{ $barang->stok_tersedia }}
+                                </span>
+                            @else
+                                <span class="status-pill status-habis">
+                                    Stok Habis
+                                </span>
+                            @endif
+                        </div>
 
-                <div class="mt-auto pt-2">
-                    @if ($bisaPinjam)
-                        <a href="{{ route('user.peminjaman.create', ['barang_id' => $b->id]) }}" class="btn btn-sm btn-primary-lab text-white w-100">
-                            <i class="fa fa-hand-holding-hand me-1"></i> Pinjam Alat Ini
-                        </a>
-                    @else
-                        <button class="btn btn-sm btn-secondary w-100" disabled>
-                            <i class="fa fa-ban me-1"></i> Tidak Tersedia
-                        </button>
-                    @endif
+                        <!-- Info Alat -->
+                        <div class="d-flex align-items-start gap-3 mb-3">
+                            <div class="stat-icon-box stat-icon-teal shrink-0" style="width: 44px; height: 44px; font-size: 20px;">
+                                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M10 2v7.31L4.1 19.34A2 2 0 0 0 5.8 22h12.4a2 2 0 0 0 1.7-2.66L14 9.31V2"/>
+                                    <path d="M8.5 2h7"/>
+                                    <path d="M7 16h10"/>
+                                </svg>
+                            </div>
+                            <div>
+                                <h3 class="fs-6 fw-bold text-dark mb-1">{{ $barang->nama_barang }}</h3>
+                                <span class="text-secondary small font-monospace">Kode: {{ $barang->kode_barang }}</span>
+                            </div>
+                        </div>
+
+                        <!-- Deskripsi -->
+                        <p class="text-secondary small mb-3" style="line-height: 1.5; min-height: 42px;">
+                            {{ Str::limit($barang->deskripsi ?: 'Peralatan standar praktikum di laboratorium terpadu.', 90) }}
+                        </p>
+                    </div>
+
+                    <!-- Footer Kartu: Tombol Aksi Pinjam -->
+                    <div class="pt-3 border-top mt-2">
+                        @if ($barang->stok_tersedia > 0)
+                            <a href="{{ route('user.peminjaman.create', ['barang_id' => $barang->id]) }}" class="btn-sipinjam-primary w-100">
+                                <i class="bi bi-box-arrow-in-right"></i>
+                                <span>Pinjam Alat Ini</span>
+                            </a>
+                        @else
+                            <button class="btn btn-secondary w-100 disabled" disabled style="border-radius: var(--radius-btn); font-size: 14px; font-weight: 600;">
+                                <span>Tidak Dapat Dipinjam</span>
+                            </button>
+                        @endif
+                    </div>
                 </div>
             </div>
-        </div>
-    @empty
-        <div class="col-12">
-            <div class="table-wrap text-center py-5 text-muted">
-                <i class="fa fa-box-open fs-1 mb-2 d-block text-secondary"></i>
-                Tidak ada peralatan laboratorium yang cocok dengan kriteria pencarian Anda.
+        @empty
+            <div class="col-12">
+                <div class="sipinjam-card text-center py-5">
+                    <i class="bi bi-inbox fs-1 d-block mb-2 text-muted"></i>
+                    <h4 class="fs-6 fw-bold text-dark">Alat Tidak Ditemukan</h4>
+                    <p class="text-secondary small mb-0">Coba ubah kata kunci pencarian atau pilih kategori lain.</p>
+                </div>
             </div>
-        </div>
-    @endforelse
-</div>
+        @endforelse
+    </div>
 
-<div class="mt-4">
-    {{ $barangs->links('pagination::bootstrap-5') }}
+    <!-- Pagination -->
+    @if ($barangs->hasPages())
+        <div class="d-flex justify-content-center">
+            {{ $barangs->links() }}
+        </div>
+    @endif
+
 </div>
 @endsection

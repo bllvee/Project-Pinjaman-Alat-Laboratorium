@@ -1,0 +1,1129 @@
+/* ========================================================
+   SiPinjam Lab — Custom CSS Design System
+   Sistem Peminjaman Alat Laboratorium
+   Token Desain: Clean SaaS, Minimalis, Hijau Teal Aksen
+   ======================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap');
+
+:root {
+    /* Font */
+    --font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+
+    /* Warna Utama (Teal) */
+    --teal-primary: #0D9488;
+    --teal-hover: #0F766E;
+    --teal-soft: #F0FDFA;
+    --teal-border: #CCFBF1;
+
+    /* Warna Netral & Surface */
+    --bg-page: #F8FAFC;
+    --bg-surface: #FFFFFF;
+    --border-color: #E2E8F0;
+    --table-header-bg: #F8FAFC;
+
+    /* Tipografi / Teks */
+    --text-main: #0F172A;
+    --text-secondary: #64748B;
+    --text-muted: #94A3B8;
+
+    /* Warna Semantik / Status */
+    --status-success-bg: #DCFCE7;
+    --status-success-text: #15803D;
+
+    --status-info-bg: #DBEAFE;
+    --status-info-text: #1D4ED8;
+
+    --status-danger-bg: #FEE2E2;
+    --status-danger-text: #DC2626;
+
+    --status-warning-bg: #FEF3C7;
+    --status-warning-text: #B45309;
+
+    /* Kotak Aturan Denda UTS */
+    --rule-box-bg: #FFFBEB;
+    --rule-box-border: #FDE68A;
+    --rule-box-title: #B45309;
+    --rule-box-text: #92400E;
+
+    /* Ikon Kotak Statistik */
+    --stat-blue-bg: #EFF6FF;
+    --stat-blue-icon: #2563EB;
+
+    --stat-teal-bg: #F0FDFA;
+    --stat-teal-icon: #0D9488;
+
+    --stat-red-bg: #FEF2F2;
+    --stat-red-icon: #DC2626;
+
+    --stat-yellow-bg: #FEFCE8;
+    --stat-yellow-icon: #CA8A04;
+
+    /* Radius Sudut */
+    --radius-card: 12px;
+    --radius-btn: 8px;
+    --radius-input: 8px;
+    --radius-icon: 10px;
+    --radius-pill: 999px;
+
+    /* Bayangan & Dimensi */
+    --shadow-subtle: 0 1px 2px rgba(15, 23, 42, 0.05);
+    --container-max-width: 1232px;
+    --form-max-width: 800px;
+    --login-form-width: 416px;
+    --navbar-height: 80px;
+    --input-height: 48px;
+    --btn-height: 40px;
+}
+
+/* Base Reset & Typography */
+body {
+    font-family: var(--font-family);
+    background-color: var(--bg-page);
+    color: var(--text-main);
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    margin: 0;
+    padding: 0;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    color: var(--text-main);
+    font-weight: 700;
+    margin-bottom: 0;
+}
+
+.page-title {
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--text-main);
+    letter-spacing: -0.02em;
+}
+
+.page-subtitle {
+    font-size: 14px;
+    color: var(--text-secondary);
+    margin-top: 4px;
+}
+
+/* Layout Container */
+.sipinjam-container {
+    max-width: var(--container-max-width);
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+/* ========================================================
+   NAVBAR (Tinggi 80px, putih bersih, border bawah #E2E8F0)
+   ======================================================== */
+.sipinjam-navbar {
+    height: var(--navbar-height);
+    background-color: var(--bg-surface);
+    border-bottom: 1px solid var(--border-color);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.sipinjam-navbar .container-nav {
+    max-width: var(--container-max-width);
+    margin: 0 auto;
+    padding: 0 20px;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.brand-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    text-decoration: none;
+    color: var(--text-main);
+}
+
+.brand-logo-box {
+    width: 40px;
+    height: 40px;
+    background-color: var(--teal-primary);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #FFFFFF;
+    font-size: 20px;
+}
+
+.brand-name {
+    font-size: 18px;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    color: var(--text-main);
+}
+
+.nav-menu-links {
+    display: flex;
+    align-items: center;
+    gap: 32px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    height: 100%;
+}
+
+.nav-menu-item {
+    height: 100%;
+    display: flex;
+    align-items: center;
+}
+
+.nav-link-custom {
+    color: var(--text-secondary);
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 15px;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    position: relative;
+    transition: color 0.15s ease;
+}
+
+.nav-link-custom:hover {
+    color: var(--teal-primary);
+}
+
+.nav-link-custom.active {
+    color: var(--teal-primary);
+    font-weight: 600;
+}
+
+.nav-link-custom.active::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background-color: var(--teal-primary);
+    border-top-left-radius: 3px;
+    border-top-right-radius: 3px;
+}
+
+.nav-user-section {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.user-profile-info {
+    text-align: right;
+    line-height: 1.2;
+}
+
+.user-profile-name {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-main);
+}
+
+.user-role-badge {
+    display: inline-block;
+    padding: 2px 8px;
+    background-color: var(--teal-soft);
+    color: var(--teal-primary);
+    border: 1px solid var(--teal-border);
+    border-radius: var(--radius-pill);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    margin-top: 2px;
+}
+
+.user-avatar-circle {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    background-color: var(--teal-soft);
+    border: 1px solid var(--teal-border);
+    color: var(--teal-primary);
+    font-weight: 700;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn-logout-icon {
+    background: transparent;
+    border: none;
+    color: var(--text-secondary);
+    font-size: 18px;
+    padding: 6px;
+    cursor: pointer;
+    border-radius: 6px;
+    transition: all 0.15s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn-logout-icon:hover {
+    color: var(--status-danger-text);
+    background-color: var(--status-danger-bg);
+}
+
+/* ========================================================
+   KARTU (Surface 12px, border 1px #E2E8F0, bayangan tipis)
+   ======================================================== */
+.sipinjam-card {
+    background-color: var(--bg-surface);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-card);
+    box-shadow: var(--shadow-subtle);
+    padding: 24px;
+    position: relative;
+}
+
+.card-title-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.card-title-header h3,
+.card-title-header h4 {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--text-main);
+    margin: 0;
+}
+
+/* ========================================================
+   KARTU STATISTIK (Grid 4 Kolom, Ikon Kotak Lembut)
+   ======================================================== */
+.stat-card {
+    background-color: var(--bg-surface);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-card);
+    box-shadow: var(--shadow-subtle);
+    padding: 20px 24px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.stat-icon-box {
+    width: 48px;
+    height: 48px;
+    border-radius: var(--radius-icon);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+    flex-shrink: 0;
+}
+
+.stat-icon-blue {
+    background-color: var(--stat-blue-bg);
+    color: var(--stat-blue-icon);
+}
+
+.stat-icon-teal {
+    background-color: var(--stat-teal-bg);
+    color: var(--stat-teal-icon);
+}
+
+.stat-icon-red {
+    background-color: var(--stat-red-bg);
+    color: var(--stat-red-icon);
+}
+
+.stat-icon-yellow {
+    background-color: var(--stat-yellow-bg);
+    color: var(--stat-yellow-icon);
+}
+
+.stat-content {
+    display: flex;
+    flex-direction: column;
+}
+
+.stat-label {
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--text-secondary);
+    margin-bottom: 2px;
+}
+
+.stat-value {
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--text-main);
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+}
+
+/* Kartu Akumulasi (Denda & Servis) */
+.accumulation-card {
+    background-color: var(--bg-surface);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-card);
+    box-shadow: var(--shadow-subtle);
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.accumulation-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 12px;
+}
+
+.accumulation-title {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--text-main);
+}
+
+.accumulation-title i {
+    color: var(--teal-primary);
+    font-size: 18px;
+}
+
+.accumulation-pill {
+    padding: 3px 10px;
+    background-color: var(--bg-page);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-pill);
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+}
+
+.accumulation-value {
+    display: flex;
+    align-items: baseline;
+    gap: 6px;
+    margin-bottom: 12px;
+}
+
+.accumulation-rp {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--text-secondary);
+}
+
+.accumulation-number {
+    font-size: 32px;
+    font-weight: 700;
+    color: var(--text-main);
+    letter-spacing: -0.02em;
+    line-height: 1;
+}
+
+.accumulation-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 10px;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: 500;
+    width: fit-content;
+}
+
+.accumulation-tag-green {
+    background-color: var(--status-success-bg);
+    color: var(--status-success-text);
+}
+
+.accumulation-tag-warning {
+    background-color: var(--rule-box-bg);
+    color: var(--rule-box-title);
+    border: 1px solid var(--rule-box-border);
+}
+
+/* ========================================================
+   TABEL (Header #F8FAFC, Hover Halus, Label 12px Uppercase)
+   ======================================================== */
+.sipinjam-table-card {
+    background-color: var(--bg-surface);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-card);
+    box-shadow: var(--shadow-subtle);
+    overflow: hidden;
+}
+
+.sipinjam-table-card .card-header-bar {
+    padding: 20px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.table-responsive {
+    overflow-x: auto;
+}
+
+.table-sipinjam {
+    width: 100%;
+    margin-bottom: 0;
+    border-collapse: separate;
+    border-spacing: 0;
+}
+
+.table-sipinjam thead th {
+    background-color: var(--table-header-bg);
+    color: var(--text-secondary);
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    padding: 14px 20px;
+    border-top: none;
+    border-bottom: 1px solid var(--border-color);
+    white-space: nowrap;
+}
+
+.table-sipinjam tbody td {
+    padding: 16px 20px;
+    vertical-align: middle;
+    color: var(--text-main);
+    font-size: 14px;
+    border-bottom: 1px solid var(--border-color);
+    transition: background-color 0.1s ease;
+}
+
+.table-sipinjam tbody tr:hover td {
+    background-color: #F8FAFC;
+}
+
+.table-sipinjam tbody tr:last-child td {
+    border-bottom: none;
+}
+
+.user-td-cell {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.user-td-cell .avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background-color: var(--bg-page);
+    border: 1px solid var(--border-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    font-size: 13px;
+    color: var(--text-main);
+    flex-shrink: 0;
+}
+
+.user-td-cell .details {
+    display: flex;
+    flex-direction: column;
+}
+
+.user-td-cell .name {
+    font-weight: 600;
+    color: var(--text-main);
+}
+
+.user-td-cell .nim {
+    font-size: 12px;
+    color: var(--text-secondary);
+}
+
+.item-td-cell {
+    display: flex;
+    flex-direction: column;
+}
+
+.item-td-cell .item-name {
+    font-weight: 600;
+    color: var(--text-main);
+}
+
+.item-td-cell .item-code {
+    font-size: 12px;
+    color: var(--text-secondary);
+}
+
+/* ========================================================
+   BADGE STATUS (Pill 999px, Warna Soft)
+   ======================================================== */
+.status-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 12px;
+    border-radius: var(--radius-pill);
+    font-size: 12px;
+    font-weight: 600;
+    line-height: 1;
+    white-space: nowrap;
+}
+
+.status-pill.status-dipinjam {
+    background-color: var(--status-info-bg);
+    color: var(--status-info-text);
+}
+
+.status-pill.status-dikembalikan,
+.status-pill.status-tersedia,
+.status-pill.status-baik {
+    background-color: var(--status-success-bg);
+    color: var(--status-success-text);
+}
+
+.status-pill.status-terlambat,
+.status-pill.status-rusak,
+.status-pill.status-habis {
+    background-color: var(--status-danger-bg);
+    color: var(--status-danger-text);
+}
+
+.status-pill.status-menunggu {
+    background-color: var(--status-warning-bg);
+    color: var(--status-warning-text);
+}
+
+/* ========================================================
+   TOMBOL (Primary Teal, Outline, Ikon 40px)
+   ======================================================== */
+.btn-sipinjam-primary {
+    height: var(--btn-height);
+    background-color: var(--teal-primary);
+    border: 1px solid var(--teal-primary);
+    color: #FFFFFF;
+    font-size: 14px;
+    font-weight: 600;
+    border-radius: var(--radius-btn);
+    padding: 0 18px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    text-decoration: none;
+    transition: background-color 0.15s ease, border-color 0.15s ease;
+    cursor: pointer;
+}
+
+.btn-sipinjam-primary:hover {
+    background-color: var(--teal-hover);
+    border-color: var(--teal-hover);
+    color: #FFFFFF;
+}
+
+.btn-sipinjam-outline {
+    height: var(--btn-height);
+    background-color: transparent;
+    border: 1px solid var(--border-color);
+    color: var(--text-main);
+    font-size: 14px;
+    font-weight: 500;
+    border-radius: var(--radius-btn);
+    padding: 0 18px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    text-decoration: none;
+    transition: all 0.15s ease;
+    cursor: pointer;
+}
+
+.btn-sipinjam-outline:hover {
+    background-color: var(--bg-page);
+    border-color: #CBD5E1;
+    color: var(--text-main);
+}
+
+.btn-sipinjam-icon {
+    width: 34px;
+    height: 34px;
+    border-radius: 6px;
+    background-color: transparent;
+    border: 1px solid var(--border-color);
+    color: var(--text-secondary);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 15px;
+    text-decoration: none;
+    cursor: pointer;
+    transition: all 0.15s ease;
+}
+
+.btn-sipinjam-icon:hover {
+    background-color: var(--bg-page);
+    color: var(--text-main);
+    border-color: #CBD5E1;
+}
+
+.btn-sipinjam-icon.btn-danger-icon:hover {
+    background-color: var(--status-danger-bg);
+    color: var(--status-danger-text);
+    border-color: #FECACA;
+}
+
+/* ========================================================
+   FORM INPUT (Tinggi 48px, Radius 8px, Border #E2E8F0)
+   ======================================================== */
+.form-label-custom {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-main);
+    margin-bottom: 8px;
+    display: block;
+}
+
+.form-control-custom {
+    height: var(--input-height);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-input);
+    padding: 0 16px;
+    font-size: 14px;
+    font-family: var(--font-family);
+    color: var(--text-main);
+    background-color: var(--bg-surface);
+    transition: border-color 0.15s ease, box-shadow 0.15s ease;
+    width: 100%;
+}
+
+textarea.form-control-custom {
+    height: auto;
+    padding: 12px 16px;
+    resize: vertical;
+}
+
+.form-control-custom:focus {
+    outline: none;
+    border-color: var(--teal-primary);
+    box-shadow: 0 0 0 3px rgba(13, 148, 136, 0.15);
+}
+
+.form-control-custom::placeholder {
+    color: var(--text-muted);
+}
+
+.form-card-centered {
+    max-width: var(--form-max-width);
+    margin: 0 auto;
+    background-color: var(--bg-surface);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-card);
+    box-shadow: var(--shadow-subtle);
+    padding: 32px;
+}
+
+/* Input group with icon */
+.input-icon-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.input-icon-wrapper i {
+    position: absolute;
+    left: 16px;
+    color: var(--text-muted);
+    font-size: 16px;
+    pointer-events-none;
+}
+
+.input-icon-wrapper .form-control-custom {
+    padding-left: 44px;
+}
+
+/* ========================================================
+   KOTAK ATURAN DENDA (Sesuai Soal UTS MSI)
+   ======================================================== */
+.rule-box-uts {
+    background-color: var(--rule-box-bg);
+    border: 1px solid var(--rule-box-border);
+    border-radius: var(--radius-card);
+    padding: 16px 20px;
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+}
+
+.rule-box-uts i {
+    color: var(--rule-box-title);
+    font-size: 20px;
+    margin-top: 2px;
+    flex-shrink: 0;
+}
+
+.rule-box-content .rule-title {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--rule-box-title);
+    margin-bottom: 4px;
+}
+
+.rule-box-content .rule-text {
+    font-size: 13px;
+    color: var(--rule-box-text);
+    margin: 0;
+    line-height: 1.4;
+}
+
+/* ========================================================
+   PAGINATION (Terpusat, Bersih, Sesuai Gambar Acuan)
+   ======================================================== */
+.sipinjam-pagination {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    padding: 16px;
+    margin: 0;
+    list-style: none;
+}
+
+.sipinjam-pagination .page-item .page-link {
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    background-color: var(--bg-surface);
+    color: var(--text-secondary);
+    font-size: 14px;
+    font-weight: 500;
+    text-decoration: none;
+    transition: all 0.15s ease;
+}
+
+.sipinjam-pagination .page-item .page-link:hover {
+    background-color: var(--bg-page);
+    color: var(--text-main);
+    border-color: #CBD5E1;
+}
+
+.sipinjam-pagination .page-item.active .page-link {
+    background-color: var(--teal-primary);
+    border-color: var(--teal-primary);
+    color: #FFFFFF;
+    font-weight: 600;
+}
+
+.sipinjam-pagination .page-item.disabled .page-link {
+    opacity: 0.4;
+    cursor: not-allowed;
+}
+
+/* ========================================================
+   ALERT / FLASH MESSAGE
+   ======================================================== */
+.sipinjam-alert {
+    padding: 14px 18px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 24px;
+}
+
+.sipinjam-alert-success {
+    background-color: var(--status-success-bg);
+    color: var(--status-success-text);
+    border: 1px solid #BBF7D0;
+}
+
+.sipinjam-alert-danger {
+    background-color: var(--status-danger-bg);
+    color: var(--status-danger-text);
+    border: 1px solid #FECACA;
+}
+
+/* ========================================================
+   FOOTER
+   ======================================================== */
+.sipinjam-footer {
+    border-top: 1px solid var(--border-color);
+    background-color: var(--bg-page);
+    padding: 24px 0;
+    margin-top: 60px;
+    font-size: 13px;
+    color: var(--text-secondary);
+}
+
+.sipinjam-footer .footer-container {
+    max-width: var(--container-max-width);
+    margin: 0 auto;
+    padding: 0 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+.sipinjam-footer a {
+    color: var(--text-secondary);
+    text-decoration: none;
+    margin-left: 20px;
+    transition: color 0.15s ease;
+}
+
+.sipinjam-footer a:hover {
+    color: var(--teal-primary);
+}
+
+/* ========================================================
+   RESPONSIVE DESIGN (TABLET & MOBILE)
+   ======================================================== */
+@media (max-width: 991px) {
+    .nav-menu-links {
+        gap: 16px;
+    }
+    .user-profile-info {
+        display: none;
+    }
+}
+
+@media (max-width: 767px) {
+    .sipinjam-navbar {
+        height: auto;
+        padding: 12px 0;
+    }
+    .sipinjam-navbar .container-nav {
+        flex-direction: column;
+        gap: 12px;
+    }
+    .nav-menu-links {
+        gap: 12px;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+    .nav-link-custom.active::after {
+        display: none;
+    }
+    .page-title {
+        font-size: 22px;
+    }
+    .sipinjam-footer .footer-container {
+        flex-direction: column;
+        text-align: center;
+    }
+    .sipinjam-footer a {
+        margin: 0 10px;
+    }
+}
+
+/* ========================================================
+   LOGIN PAGE (Split-Screen 50/50, Teal Hero Left, Form Right)
+   ======================================================== */
+.login-split-wrapper {
+    display: flex;
+    min-height: 100vh;
+    width: 100%;
+}
+
+.login-hero-side {
+    flex: 1;
+    background: linear-gradient(135deg, #0F766E 0%, #0D9488 100%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 40px;
+    color: #FFFFFF;
+    text-align: center;
+    position: relative;
+}
+
+.login-hero-icon-box {
+    width: 88px;
+    height: 88px;
+    background: rgba(255, 255, 255, 0.18);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #FFFFFF;
+    margin-bottom: 24px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+}
+
+.login-hero-title {
+    font-size: 36px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    color: #FFFFFF;
+    margin-bottom: 12px;
+}
+
+.login-hero-desc {
+    font-size: 16px;
+    line-height: 1.6;
+    color: rgba(255, 255, 255, 0.88);
+    max-width: 380px;
+    margin: 0 auto;
+}
+
+.login-form-side {
+    flex: 1;
+    background-color: var(--bg-surface);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 24px;
+    min-height: 100vh;
+}
+
+.login-form-container {
+    width: 100%;
+    max-width: var(--login-form-width); /* 416px */
+}
+
+.login-header {
+    text-align: center;
+    margin-bottom: 32px;
+}
+
+.login-header-title {
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--text-main);
+    letter-spacing: -0.02em;
+    margin-bottom: 6px;
+}
+
+.login-header-subtitle {
+    font-size: 14px;
+    color: var(--text-secondary);
+}
+
+.login-demo-box {
+    background-color: #F8FAFC;
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-card);
+    padding: 18px;
+    margin-top: 28px;
+}
+
+.login-demo-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    margin-bottom: 14px;
+}
+
+.login-demo-item {
+    background-color: #FFFFFF;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 10px 14px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 8px;
+}
+
+.login-demo-item:last-child {
+    margin-bottom: 0;
+}
+
+.login-demo-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.login-demo-role {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-main);
+}
+
+.login-demo-creds {
+    font-size: 12px;
+    color: var(--text-secondary);
+}
+
+.btn-demo-fill {
+    background-color: var(--teal-soft);
+    border: 1px solid var(--teal-border);
+    color: var(--teal-primary);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    padding: 5px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.15s ease;
+}
+
+.btn-demo-fill:hover {
+    background-color: var(--teal-primary);
+    color: #FFFFFF;
+    border-color: var(--teal-primary);
+}
+
+.login-footer-copy {
+    text-align: center;
+    font-size: 12px;
+    color: var(--text-muted);
+    margin-top: 36px;
+}
+
+@media (max-width: 900px) {
+    .login-split-wrapper {
+        flex-direction: column;
+    }
+    .login-hero-side {
+        min-height: 240px;
+        padding: 32px 20px;
+    }
+    .login-hero-icon-box {
+        width: 64px;
+        height: 64px;
+        margin-bottom: 16px;
+    }
+    .login-hero-title {
+        font-size: 26px;
+    }
+    .login-hero-desc {
+        font-size: 14px;
+    }
+    .login-form-side {
+        min-height: auto;
+        padding: 32px 20px 48px;
+    }
+}
+

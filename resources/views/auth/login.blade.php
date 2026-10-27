@@ -1,129 +1,177 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Login - SiPinjam Lab (Laravel)</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <link rel="stylesheet" href="{{ asset('css/style.css') }}">
-    <style>
-        body {
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: linear-gradient(135deg, #0f3d3e 0%, #146356 50%, #208e7a 100%);
-            padding: 20px;
-        }
-        .login-card {
-            background: #ffffff;
-            border-radius: 16px;
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
-            overflow: hidden;
-            width: 100%;
-            max-width: 440px;
-        }
-        .login-header {
-            background: linear-gradient(to right, #0f3d3e, #146356);
-            color: #ffffff;
-            padding: 30px 25px;
-            text-align: center;
-        }
-        .login-header i.fa-flask {
-            font-size: 42px;
-            margin-bottom: 10px;
-            color: #5eead4;
-        }
-        .login-body {
-            padding: 30px 25px 25px 25px;
-        }
-        .demo-box {
-            background-color: #f0fdf4;
-            border: 1px dashed #86efac;
-            border-radius: 8px;
-            padding: 12px;
-            font-size: 12px;
-            color: #166534;
-        }
-        .demo-btn {
-            font-size: 11px;
-            padding: 2px 8px;
-            border-radius: 4px;
-        }
-    </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Masuk ke Sistem — SiPinjam Lab</title>
+
+    <!-- Google Fonts: Plus Jakarta Sans -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+    <!-- SiPinjam Lab Design System CSS -->
+    <link rel="stylesheet" href="{{ asset('css/sipinjam.css') }}">
 </head>
-<body>
+<body class="bg-white">
 
-<div class="login-card">
-    <div class="login-header">
-        <i class="fa fa-flask"></i>
-        <h4 class="fw-bold mb-1">SiPinjam Lab</h4>
-        <p class="mb-0 small text-light opacity-75">Sistem Peminjaman Alat Laboratorium</p>
-    </div>
-
-    <div class="login-body">
-        @if (session('success'))
-            <div class="alert alert-success py-2 px-3 small mb-3">
-                <i class="fa fa-circle-check me-1"></i> {{ session('success') }}
+    <div class="login-split-wrapper">
+        <!-- Panel Kiri: Identitas Visual & Branding -->
+        <div class="login-hero-side">
+            <div class="login-hero-icon-box">
+                <svg width="46" height="46" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M10 2v7.31L4.1 19.34A2 2 0 0 0 5.8 22h12.4a2 2 0 0 0 1.7-2.66L14 9.31V2"/>
+                    <path d="M8.5 2h7"/>
+                    <path d="M7 16h10"/>
+                </svg>
             </div>
-        @endif
-
-        @if ($errors->any())
-            <div class="alert alert-danger py-2 px-3 small mb-3">
-                <i class="fa fa-circle-exclamation me-1"></i> {{ $errors->first() }}
-            </div>
-        @endif
-
-        <form method="POST" action="{{ route('login') }}">
-            @csrf
-            <div class="mb-3">
-                <label class="form-label small fw-semibold">Username / NIM</label>
-                <div class="input-group">
-                    <span class="input-group-text bg-light text-muted"><i class="fa fa-user"></i></span>
-                    <input type="text" name="username" id="username" class="form-control" 
-                           placeholder="admin atau NIM mahasiswa" value="{{ old('username') }}" required autofocus>
-                </div>
-            </div>
-
-            <div class="mb-3">
-                <label class="form-label small fw-semibold">Password</label>
-                <div class="input-group">
-                    <span class="input-group-text bg-light text-muted"><i class="fa fa-lock"></i></span>
-                    <input type="password" name="password" id="password" class="form-control" 
-                           placeholder="Masukkan password" required>
-                </div>
-            </div>
-
-            <button type="submit" class="btn btn-primary-lab text-white w-100 py-2 fw-semibold">
-                <i class="fa fa-arrow-right-to-bracket me-1"></i> Masuk ke Sistem
-            </button>
-        </form>
-
-        <div class="demo-box mt-3">
-            <div class="fw-bold mb-1"><i class="fa fa-key me-1"></i> Akun Demo Uji Coba:</div>
-            <div class="d-flex justify-content-between align-items-center mb-1">
-                <span><strong>Admin:</strong> <code>admin</code> / <code>admin123</code></span>
-                <button type="button" class="btn btn-sm btn-outline-success demo-btn" onclick="isiAkun('admin', 'admin123')">Gunakan</button>
-            </div>
-            <div class="d-flex justify-content-between align-items-center">
-                <span><strong>Mahasiswa:</strong> <code>24051130084</code> / <code>123456</code></span>
-                <button type="button" class="btn btn-sm btn-outline-success demo-btn" onclick="isiAkun('24051130084', '123456')">Gunakan</button>
-            </div>
+            <h1 class="login-hero-title">SiPinjam Lab</h1>
+            <p class="login-hero-desc">
+                Solusi manajemen peminjaman alat laboratorium yang cerdas dan terintegrasi.
+            </p>
         </div>
 
-        <div class="text-center text-muted mt-3" style="font-size: 12px;">
-            &copy; {{ date('Y') }} Kelompok 6 &bull; UTS Praktikum MSI (Laravel MVC)
+        <!-- Panel Kanan: Form Otentikasi & Akun Demo -->
+        <div class="login-form-side">
+            <div class="login-form-container">
+                <div class="login-header">
+                    <h2 class="login-header-title">Selamat Datang</h2>
+                    <p class="login-header-subtitle">Silakan masuk ke akun Anda</p>
+                </div>
+
+                <!-- Alert Feedback -->
+                @if (session('success'))
+                    <div class="sipinjam-alert sipinjam-alert-success mb-3">
+                        <div class="d-flex align-items-center gap-2">
+                            <i class="bi bi-check-circle-fill fs-5"></i>
+                            <span>{{ session('success') }}</span>
+                        </div>
+                        <button type="button" class="btn-close" aria-label="Close" onclick="this.closest('.sipinjam-alert').remove()"></button>
+                    </div>
+                @endif
+
+                @if (session('error'))
+                    <div class="sipinjam-alert sipinjam-alert-danger mb-3">
+                        <div class="d-flex align-items-center gap-2">
+                            <i class="bi bi-exclamation-triangle-fill fs-5"></i>
+                            <span>{{ session('error') }}</span>
+                        </div>
+                        <button type="button" class="btn-close" aria-label="Close" onclick="this.closest('.sipinjam-alert').remove()"></button>
+                    </div>
+                @endif
+
+                <!-- Form Login -->
+                <form action="{{ route('login') }}" method="POST" id="loginForm">
+                    @csrf
+
+                    <!-- Input Username / NIM -->
+                    <div class="mb-3">
+                        <label for="username" class="form-label-custom">Username / NIM</label>
+                        <div class="input-icon-wrapper">
+                            <i class="bi bi-person"></i>
+                            <input type="text" 
+                                   name="username" 
+                                   id="username" 
+                                   class="form-control-custom @error('username') is-invalid @enderror" 
+                                   placeholder="Admin atau NIM mahasiswa" 
+                                   value="{{ old('username') }}" 
+                                   required 
+                                   autofocus 
+                                   autocomplete="username">
+                        </div>
+                        @error('username')
+                            <div class="text-danger small mt-1 d-flex align-items-center gap-1">
+                                <i class="bi bi-exclamation-circle"></i>
+                                <span>{{ $message }}</span>
+                            </div>
+                        @enderror
+                    </div>
+
+                    <!-- Input Password -->
+                    <div class="mb-3">
+                        <label for="password" class="form-label-custom">Password</label>
+                        <div class="input-icon-wrapper">
+                            <i class="bi bi-lock"></i>
+                            <input type="password" 
+                                   name="password" 
+                                   id="password" 
+                                   class="form-control-custom @error('password') is-invalid @enderror" 
+                                   placeholder="Masukkan password" 
+                                   required 
+                                   autocomplete="current-password">
+                        </div>
+                        @error('password')
+                            <div class="text-danger small mt-1 d-flex align-items-center gap-1">
+                                <i class="bi bi-exclamation-circle"></i>
+                                <span>{{ $message }}</span>
+                            </div>
+                        @enderror
+                    </div>
+
+                    <!-- Tombol Masuk -->
+                    <button type="submit" class="btn-sipinjam-primary w-100 mt-2" style="height: 48px; font-size: 15px;">
+                        <span>Masuk ke Sistem</span>
+                        <i class="bi bi-arrow-right"></i>
+                    </button>
+                </form>
+
+                <!-- Kotak Bantuan Akun Demo Uji Coba -->
+                <div class="login-demo-box">
+                    <div class="login-demo-header">
+                        <i class="bi bi-info-circle-fill text-muted"></i>
+                        <span>AKUN DEMO UJI COBA</span>
+                    </div>
+
+                    <!-- Row Akun Admin -->
+                    <div class="login-demo-item">
+                        <div class="login-demo-info">
+                            <span class="login-demo-role">Admin</span>
+                            <span class="login-demo-creds">admin / admin123</span>
+                        </div>
+                        <button type="button" class="btn-demo-fill" onclick="fillLogin('admin', 'admin123')">
+                            GUNAKAN
+                        </button>
+                    </div>
+
+                    <!-- Row Akun Mahasiswa -->
+                    <div class="login-demo-item">
+                        <div class="login-demo-info">
+                            <span class="login-demo-role">Mahasiswa</span>
+                            <span class="login-demo-creds">24051130084 / 123456</span>
+                        </div>
+                        <button type="button" class="btn-demo-fill" onclick="fillLogin('24051130084', '123456')">
+                            GUNAKAN
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Copyright Footer -->
+                <div class="login-footer-copy">
+                    &copy; 2026 Kelompok 6 &bull; UTS Praktikum MSI (Laravel MVC)
+                </div>
+            </div>
         </div>
     </div>
-</div>
 
-<script>
-function isiAkun(u, p) {
-    document.getElementById('username').value = u;
-    document.getElementById('password').value = p;
-}
-</script>
+    <!-- Script Quick Auto-Fill Akun Demo -->
+    <script>
+        function fillLogin(username, password) {
+            const userInput = document.getElementById('username');
+            const passInput = document.getElementById('password');
+            if (userInput && passInput) {
+                userInput.value = username;
+                passInput.value = password;
+                userInput.focus();
+            }
+        }
+    </script>
 
 </body>
 </html>
