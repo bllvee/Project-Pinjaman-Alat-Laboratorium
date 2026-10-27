@@ -1,88 +1,155 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>@yield('title', 'Admin Panel') - SiPinjam Lab</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <link rel="stylesheet" href="{{ asset('css/style.css') }}">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <title>@yield('title', 'Admin Panel') — SiPinjam Lab</title>
+
+    <!-- Google Fonts: Plus Jakarta Sans -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+    <!-- SiPinjam Lab Design System CSS -->
+    <link rel="stylesheet" href="{{ asset('css/sipinjam.css') }}">
+
+    @stack('styles')
 </head>
 <body>
 
-<nav class="navbar navbar-expand-lg navbar-dark shadow-sm">
-    <div class="container">
-        <a class="navbar-brand d-flex align-items-center gap-2" href="{{ route('admin.dashboard') }}">
-            <i class="fa fa-flask fs-4 text-warning"></i>
-            <span>SiPinjam Lab <span class="badge bg-warning text-dark fs-6 ms-1">Admin</span></span>
-        </a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navAdmin">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navAdmin">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-3">
-                <li class="nav-item">
-                    <a class="nav-link {{ request()->routeIs('admin.dashboard') ? 'active' : '' }}" href="{{ route('admin.dashboard') }}">
-                        <i class="fa fa-gauge me-1"></i> Dashboard
+    <!-- Header / Navbar Standardized (Tinggi 80px) -->
+    <header class="sipinjam-navbar">
+        <div class="container-nav">
+            <!-- Brand Logo & Title -->
+            <a href="{{ route('admin.dashboard') }}" class="brand-wrapper">
+                <div class="brand-logo-box">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M10 2v7.31L4.1 19.34A2 2 0 0 0 5.8 22h12.4a2 2 0 0 0 1.7-2.66L14 9.31V2"/>
+                        <path d="M8.5 2h7"/>
+                        <path d="M7 16h10"/>
+                    </svg>
+                </div>
+                <div>
+                    <span class="brand-name">SiPinjam Lab</span>
+                </div>
+            </a>
+
+            <!-- Menu Navigasi Horizontal Admin -->
+            <ul class="nav-menu-links">
+                <li class="nav-menu-item">
+                    <a href="{{ route('admin.dashboard') }}" class="nav-link-custom {{ request()->routeIs('admin.dashboard*') ? 'active' : '' }}">
+                        <i class="bi bi-grid me-1"></i> Dashboard
                     </a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link {{ request()->routeIs('admin.barang.*') ? 'active' : '' }}" href="{{ route('admin.barang.index') }}">
-                        <i class="fa fa-flask-vial me-1"></i> Data Barang
+                <li class="nav-menu-item">
+                    <a href="{{ route('admin.barang.index') }}" class="nav-link-custom {{ request()->routeIs('admin.barang*') ? 'active' : '' }}">
+                        <i class="bi bi-box-seam me-1"></i> Data Barang
                     </a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link {{ request()->routeIs('admin.kategori.*') ? 'active' : '' }}" href="{{ route('admin.kategori.index') }}">
-                        <i class="fa fa-tags me-1"></i> Kategori
+                <li class="nav-menu-item">
+                    <a href="{{ route('admin.kategori.index') }}" class="nav-link-custom {{ request()->routeIs('admin.kategori*') ? 'active' : '' }}">
+                        <i class="bi bi-tags me-1"></i> Kategori
                     </a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link {{ request()->routeIs('admin.peminjaman.*') ? 'active' : '' }}" href="{{ route('admin.peminjaman.index') }}">
-                        <i class="fa fa-right-left me-1"></i> Transaksi Peminjaman
+                <li class="nav-menu-item">
+                    <a href="{{ route('admin.peminjaman.index') }}" class="nav-link-custom {{ request()->routeIs('admin.peminjaman*') ? 'active' : '' }}">
+                        <i class="bi bi-arrow-left-right me-1"></i> Transaksi
                     </a>
                 </li>
             </ul>
 
-            <div class="d-flex align-items-center gap-3 text-white">
-                <div class="text-end d-none d-sm-block lh-sm">
-                    <div class="fw-semibold small">{{ auth()->user()->name }}</div>
-                    <span class="badge bg-warning text-dark" style="font-size: 10px;">
-                        <i class="fa fa-shield-halved me-1"></i> ADMIN LAB
-                    </span>
-                </div>
-                <form method="POST" action="{{ route('logout') }}" class="m-0">
-                    @csrf
-                    <button type="submit" class="btn btn-sm btn-outline-light" title="Keluar">
-                        <i class="fa fa-arrow-right-from-bracket"></i> <span class="d-none d-md-inline ms-1">Keluar</span>
-                    </button>
-                </form>
+            <!-- Profil User & Logout -->
+            <div class="nav-user-section">
+                @if (auth()->check())
+                    <div class="user-avatar-circle" title="{{ auth()->user()->name }}">
+                        {{ strtoupper(substr(auth()->user()->name, 0, 2)) }}
+                    </div>
+                    <div class="user-profile-info">
+                        <div class="user-profile-name">Halo, {{ auth()->user()->name }}</div>
+                        <span class="user-role-badge">Admin</span>
+                    </div>
+                    <form action="{{ route('logout') }}" method="POST" class="d-inline m-0">
+                        @csrf
+                        <button type="submit" class="btn-logout-icon" title="Keluar / Logout" onclick="return confirm('Apakah Anda yakin ingin keluar?')">
+                            <i class="bi bi-box-arrow-right"></i>
+                        </button>
+                    </form>
+                @endif
             </div>
         </div>
-    </div>
-</nav>
+    </header>
 
-<div class="container my-4">
-    @if (session('success'))
-        <div class="alert alert-success alert-dismissible fade show shadow-sm" role="alert">
-            <i class="fa fa-circle-check me-2"></i> {{ session('success') }}
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    <!-- Main Content -->
+    <main class="py-4">
+        <div class="sipinjam-container">
+            <!-- Flash Notification Alerts -->
+            @if (session('success'))
+                <div class="sipinjam-alert sipinjam-alert-success">
+                    <div class="d-flex align-items-center gap-2">
+                        <i class="bi bi-check-circle-fill fs-5"></i>
+                        <span>{{ session('success') }}</span>
+                    </div>
+                    <button type="button" class="btn-close" aria-label="Close" onclick="this.closest('.sipinjam-alert').remove()"></button>
+                </div>
+            @endif
+
+            @if (session('error'))
+                <div class="sipinjam-alert sipinjam-alert-danger">
+                    <div class="d-flex align-items-center gap-2">
+                        <i class="bi bi-exclamation-triangle-fill fs-5"></i>
+                        <span>{{ session('error') }}</span>
+                    </div>
+                    <button type="button" class="btn-close" aria-label="Close" onclick="this.closest('.sipinjam-alert').remove()"></button>
+                </div>
+            @endif
+
+            @if ($errors->any())
+                <div class="sipinjam-alert sipinjam-alert-danger flex-column align-items-start">
+                    <div class="d-flex align-items-center justify-content-between w-100 mb-1">
+                        <div class="d-flex align-items-center gap-2">
+                            <i class="bi bi-exclamation-circle-fill fs-5"></i>
+                            <strong>Validasi Formulir Gagal:</strong>
+                        </div>
+                        <button type="button" class="btn-close" aria-label="Close" onclick="this.closest('.sipinjam-alert').remove()"></button>
+                    </div>
+                    <ul class="mb-0 ps-4 small">
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
+
+            <!-- Page Content Slot -->
+            @yield('content')
         </div>
-    @endif
+    </main>
 
-    @if (session('error'))
-        <div class="alert alert-danger alert-dismissible fade show shadow-sm" role="alert">
-            <i class="fa fa-circle-exclamation me-2"></i> {{ session('error') }}
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    <!-- Global Footer -->
+    <footer class="sipinjam-footer">
+        <div class="footer-container">
+            <div>
+                &copy; {{ date('Y') }} <strong>SiPinjam Lab</strong> &mdash; Sistem Peminjaman Alat Laboratorium. All rights reserved.
+            </div>
+            <div class="d-none d-md-flex align-items-center gap-3">
+                <span>Praktikum Manajemen Sistem Informasi</span>
+                <span class="text-muted">&bull;</span>
+                <span>UTS Laravel MVC</span>
+            </div>
         </div>
-    @endif
+    </footer>
 
-    @yield('content')
-</div>
+    <!-- Bootstrap 5 JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 
-<footer class="text-center text-muted py-4 small">
-    &copy; {{ date('Y') }} Sistem Peminjaman Alat Laboratorium &mdash; UTS Praktikum MSI Kelompok 6 (Laravel MVC)
-</footer>
-
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    @stack('scripts')
 </body>
 </html>
