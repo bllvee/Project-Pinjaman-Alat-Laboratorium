@@ -3,158 +3,145 @@
 @section('title', 'Ajukan Peminjaman Alat')
 
 @section('content')
-<div class="max-w-3xl mx-auto flex flex-col gap-space-lg">
-    <!-- Header -->
-    <div class="flex items-center justify-between pb-space-xs border-b border-outline-variant/20">
-        <div class="flex items-center gap-space-sm">
-            <div class="w-10 h-10 rounded-xl bg-primary/10 border border-primary/20 flex items-center justify-center text-primary">
-                <span class="material-symbols-outlined text-[24px]">assignment_add</span>
-            </div>
-            <div>
-                <h1 class="font-headline-md text-headline-md text-on-surface tracking-tight">Form Pengajuan Peminjaman Alat</h1>
-                <p class="font-body-sm text-body-sm text-on-surface-variant">Laboratorium Manajemen Sistem Informasi</p>
-            </div>
-        </div>
-        <a href="{{ route('user.dashboard') }}" 
-           class="px-space-md py-space-sm rounded-lg bg-surface-container hover:bg-surface-container-high text-on-surface font-label-md text-label-md flex items-center gap-space-xs transition-colors border border-outline-variant/30">
-            <span class="material-symbols-outlined text-[18px]">arrow_back</span>
-            <span>Kembali</span>
-        </a>
+<div class="create-peminjaman-page">
+
+    <!-- Breadcrumb Navigasi -->
+    <nav aria-label="breadcrumb" class="mb-2">
+        <ol class="breadcrumb breadcrumb-sipinjam">
+            <li class="breadcrumb-item"><a href="{{ route('user.dashboard') }}" class="text-secondary text-decoration-none">Beranda</a></li>
+            <li class="breadcrumb-item active text-teal fw-semibold" aria-current="page">Form Pengajuan Peminjaman</li>
+        </ol>
+    </nav>
+
+    <!-- Header Halaman -->
+    <div class="mb-4">
+        <h1 class="page-title">Form Pengajuan Peminjaman Alat</h1>
+        <p class="page-subtitle">Laboratorium Manajemen Sistem Informasi — isi formulir dengan lengkap dan benar.</p>
     </div>
 
-    <!-- Identitas Mahasiswa Terkunci -->
-    <div class="p-space-md rounded-xl bg-surface-container-low border border-outline-variant/30 shadow-sm flex flex-col gap-space-xs">
-        <div class="flex items-center gap-space-xs text-primary font-label-sm text-label-sm uppercase tracking-wider mb-1">
-            <span class="material-symbols-outlined text-[18px]">badge</span>
-            <span>Identitas Peminjam (Tervalidasi Otomatis)</span>
-        </div>
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-space-sm font-body-sm text-body-sm">
-            <div class="p-2 rounded bg-surface-container border border-outline-variant/10">
-                <span class="text-on-surface-variant block text-xs">Nama Mahasiswa:</span>
-                <strong class="text-on-surface">{{ auth()->user()->name }}</strong>
-            </div>
-            <div class="p-2 rounded bg-surface-container border border-outline-variant/10">
-                <span class="text-on-surface-variant block text-xs">NIM:</span>
-                <code class="text-tertiary font-bold">{{ auth()->user()->nim ?? auth()->user()->username }}</code>
-            </div>
-            <div class="p-2 rounded bg-surface-container border border-outline-variant/10">
-                <span class="text-on-surface-variant block text-xs">Program Studi:</span>
-                <span class="text-on-surface">{{ auth()->user()->prodi ?? 'Teknologi Informasi' }}</span>
-            </div>
-            <div class="p-2 rounded bg-surface-container border border-outline-variant/10">
-                <span class="text-on-surface-variant block text-xs">No. Telepon / WA:</span>
-                <span class="text-on-surface">{{ auth()->user()->no_hp ?? '-' }}</span>
-            </div>
-        </div>
-    </div>
+    <!-- Form Card Terpusat (Max Width 800px) -->
+    <div class="form-card-centered">
 
-    <!-- Form Pengajuan Pinjam -->
-    <div class="bg-surface-container-low border border-outline-variant/30 rounded-xl p-space-lg shadow-md">
-        <form method="POST" action="{{ route('user.peminjaman.store') }}" class="space-y-space-md">
+        <!-- Identitas Peminjam Terkunci (Read-only) -->
+        <div class="user-identity-box mb-4">
+            <i class="bi bi-person-badge user-identity-icon"></i>
+            <div class="w-100">
+                <div class="user-identity-title">Identitas Peminjam (Tervalidasi Otomatis)</div>
+                <div class="row g-2 mt-1">
+                    <div class="col-6 col-sm-3">
+                        <span class="d-block text-secondary small">Nama:</span>
+                        <strong class="user-identity-item">{{ auth()->user()->name }}</strong>
+                    </div>
+                    <div class="col-6 col-sm-3">
+                        <span class="d-block text-secondary small">NIM:</span>
+                        <strong class="user-identity-item text-teal">{{ auth()->user()->nim ?? auth()->user()->username }}</strong>
+                    </div>
+                    <div class="col-6 col-sm-3">
+                        <span class="d-block text-secondary small">Prodi:</span>
+                        <span class="user-identity-item">{{ auth()->user()->prodi ?? 'Teknologi Informasi' }}</span>
+                    </div>
+                    <div class="col-6 col-sm-3">
+                        <span class="d-block text-secondary small">No. HP:</span>
+                        <span class="user-identity-item">{{ auth()->user()->no_hp ?? '-' }}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <form method="POST" action="{{ route('user.peminjaman.store') }}">
             @csrf
 
-            <!-- Pilih Alat -->
-            <div class="flex flex-col gap-1">
-                <label class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider" for="barang_id">
-                    Pilih Peralatan Laboratorium <span class="text-error">*</span>
+            <!-- 1. Pilih Peralatan Laboratorium -->
+            <div class="mb-4">
+                <label for="barang_id" class="form-label-custom">
+                    Pilih Peralatan Laboratorium <span class="text-danger">*</span>
                 </label>
-                <div class="relative">
-                    <select class="w-full appearance-none bg-surface-container-lowest text-on-surface font-body-md text-body-md rounded-lg py-space-sm pl-space-md pr-10 border border-outline-variant/30 focus:outline-none focus:border-primary focus:bg-surface-container cursor-pointer transition-all" 
-                            id="barang_id" 
-                            name="barang_id" 
-                            required>
-                        <option value="">-- Pilih Alat yang Ingin Dipinjam --</option>
-                        @foreach ($barangs as $b)
-                            <option value="{{ $b->id }}" {{ (old('barang_id') == $b->id || $selectedBarangId == $b->id) ? 'selected' : '' }}>
-                                {{ $b->nama_barang }} [{{ $b->kode_barang }}] — Tersedia: {{ $b->stok_tersedia }} unit
-                            </option>
-                        @endforeach
-                    </select>
-                    <span class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-on-surface-variant text-[20px] pointer-events-none">expand_more</span>
-                </div>
+                <select id="barang_id"
+                        name="barang_id"
+                        class="form-control-custom @error('barang_id') is-invalid @enderror"
+                        required>
+                    <option value="">-- Pilih Alat yang Ingin Dipinjam --</option>
+                    @foreach ($barangs as $b)
+                        <option value="{{ $b->id }}" {{ (old('barang_id') == $b->id || $selectedBarangId == $b->id) ? 'selected' : '' }}>
+                            {{ $b->nama_barang }} [{{ $b->kode_barang }}] — Tersedia: {{ $b->stok_tersedia }} unit
+                        </option>
+                    @endforeach
+                </select>
                 @error('barang_id')
-                    <span class="font-body-sm text-body-sm text-error mt-0.5">{{ $message }}</span>
+                    <div class="text-danger small mt-1">{{ $message }}</div>
                 @enderror
             </div>
 
-            <!-- Tanggal Pinjam & Tanggal Rencana Kembali -->
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-space-md">
-                <div class="flex flex-col gap-1">
-                    <label class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider" for="tanggal_pinjam">
-                        Tanggal Pinjam <span class="text-error">*</span>
+            <!-- 2. Tanggal Pinjam & Tanggal Rencana Kembali (2 Kolom) -->
+            <div class="row g-3 mb-4">
+                <div class="col-12 col-md-6">
+                    <label for="tanggal_pinjam" class="form-label-custom">
+                        Tanggal Pinjam <span class="text-danger">*</span>
                     </label>
-                    <div class="relative flex items-center">
-                        <input class="w-full bg-surface-container-lowest text-on-surface font-body-md text-body-md rounded-lg py-space-sm px-space-md border border-outline-variant/30 focus:outline-none focus:border-primary focus:bg-surface-container transition-all" 
-                               id="tanggal_pinjam" 
-                               name="tanggal_pinjam" 
-                               required 
-                               type="date" 
-                               value="{{ old('tanggal_pinjam', date('Y-m-d')) }}"/>
-                    </div>
+                    <input type="date"
+                           id="tanggal_pinjam"
+                           name="tanggal_pinjam"
+                           class="form-control-custom @error('tanggal_pinjam') is-invalid @enderror"
+                           value="{{ old('tanggal_pinjam', date('Y-m-d')) }}"
+                           required>
                     @error('tanggal_pinjam')
-                        <span class="font-body-sm text-body-sm text-error mt-0.5">{{ $message }}</span>
+                        <div class="text-danger small mt-1">{{ $message }}</div>
                     @enderror
                 </div>
 
-                <div class="flex flex-col gap-1">
-                    <label class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider" for="tanggal_rencana_kembali">
-                        Rencana Tanggal Kembali <span class="text-error">*</span>
+                <div class="col-12 col-md-6">
+                    <label for="tanggal_rencana_kembali" class="form-label-custom">
+                        Rencana Tanggal Kembali <span class="text-danger">*</span>
                     </label>
-                    <div class="relative flex items-center">
-                        <input class="w-full bg-surface-container-lowest text-on-surface font-body-md text-body-md rounded-lg py-space-sm px-space-md border border-outline-variant/30 focus:outline-none focus:border-primary focus:bg-surface-container transition-all" 
-                               id="tanggal_rencana_kembali" 
-                               min="{{ date('Y-m-d') }}" 
-                               name="tanggal_rencana_kembali" 
-                               required 
-                               type="date" 
-                               value="{{ old('tanggal_rencana_kembali') }}"/>
-                    </div>
+                    <input type="date"
+                           id="tanggal_rencana_kembali"
+                           name="tanggal_rencana_kembali"
+                           class="form-control-custom @error('tanggal_rencana_kembali') is-invalid @enderror"
+                           min="{{ date('Y-m-d') }}"
+                           value="{{ old('tanggal_rencana_kembali') }}"
+                           required>
                     @error('tanggal_rencana_kembali')
-                        <span class="font-body-sm text-body-sm text-error mt-0.5">{{ $message }}</span>
+                        <div class="text-danger small mt-1">{{ $message }}</div>
                     @enderror
                 </div>
             </div>
 
-            <!-- Catatan Keperluan -->
-            <div class="flex flex-col gap-1">
-                <label class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider" for="catatan">
-                    Catatan / Keperluan Praktikum
-                </label>
-                <textarea class="w-full bg-surface-container-lowest text-on-surface placeholder:text-outline-variant font-body-md text-body-md rounded-lg p-space-md border border-outline-variant/30 focus:outline-none focus:border-primary focus:bg-surface-container transition-all" 
-                          id="catatan" 
-                          name="catatan" 
-                          placeholder="Contoh: Praktikum Jaringan / Simulasi Rangkaian Tertanam..." 
-                          rows="3">{{ old('catatan') }}</textarea>
+            <!-- 3. Catatan / Keperluan Praktikum -->
+            <div class="mb-4">
+                <label for="catatan" class="form-label-custom">Catatan / Keperluan Praktikum</label>
+                <textarea id="catatan"
+                          name="catatan"
+                          rows="3"
+                          class="form-control-custom @error('catatan') is-invalid @enderror"
+                          placeholder="Contoh: Praktikum Jaringan / Simulasi Rangkaian Tertanam...">{{ old('catatan') }}</textarea>
                 @error('catatan')
-                    <span class="font-body-sm text-body-sm text-error mt-0.5">{{ $message }}</span>
+                    <div class="text-danger small mt-1">{{ $message }}</div>
                 @enderror
             </div>
 
-            <!-- Info Ketentuan UTS -->
-            <div class="rounded-xl bg-surface-container p-space-md flex flex-col gap-space-xs border border-outline-variant/20">
-                <div class="flex items-center gap-space-xs text-primary font-label-md text-label-md font-semibold">
-                    <span class="material-symbols-outlined text-[18px]">info</span>
-                    <span>Peraturan Pengembalian Alat (Aturan UTS MSI):</span>
+            <!-- Kotak Aturan Denda -->
+            <div class="rule-box mb-4">
+                <i class="bi bi-exclamation-triangle-fill rule-box-icon"></i>
+                <div>
+                    <div class="rule-box-title">Aturan Pengembalian Alat (Sesuai Soal UTS MSI)</div>
+                    <p class="rule-box-text">
+                        Keterlambatan pengembalian <strong>lebih dari 3 hari</strong> dari rencana kembali dikenakan denda <strong>Rp 2.000 / hari</strong>. Peralatan yang dikembalikan dalam kondisi <strong>rusak</strong> dikenakan biaya perbaikan tetap <strong>Rp 10.000 / unit</strong>.
+                    </p>
                 </div>
-                <ul class="list-disc list-inside text-body-sm text-on-surface-variant space-y-1">
-                    <li>Keterlambatan pengembalian <strong>lebih dari 3 hari</strong> dari rencana kembali dikenakan denda <strong>Rp2.000 / hari</strong>.</li>
-                    <li>Peralatan yang dikembalikan dalam kondisi <strong>rusak</strong> dikenakan biaya perbaikan tetap <strong>Rp10.000</strong>.</li>
-                </ul>
             </div>
 
-            <!-- Action Buttons -->
-            <div class="flex items-center gap-space-sm pt-space-md border-t border-outline-variant/20">
-                <button type="submit" 
-                        class="flex-1 bg-inverse-surface hover:bg-white text-inverse-on-surface font-label-lg text-label-lg py-space-sm px-space-lg rounded-xl flex items-center justify-center gap-space-xs shadow-md transition-all active:scale-[0.99]">
-                    <span class="material-symbols-outlined text-[20px]">check_circle</span>
-                    <span>Ajukan Peminjaman Sekarang</span>
-                </button>
-                <a href="{{ route('user.dashboard') }}" 
-                   class="px-space-lg py-space-sm rounded-xl bg-surface-container hover:bg-surface-container-high text-on-surface font-label-lg text-label-lg transition-colors border border-outline-variant/30">
+            <!-- Tombol Aksi -->
+            <div class="d-flex justify-content-end align-items-center gap-3 pt-3 border-top">
+                <a href="{{ route('user.dashboard') }}" class="btn-sipinjam-outline">
                     Batal
                 </a>
+                <button type="submit" class="btn-sipinjam-primary">
+                    <i class="bi bi-check-circle"></i>
+                    <span>Ajukan Peminjaman</span>
+                </button>
             </div>
         </form>
     </div>
+
 </div>
 @endsection
