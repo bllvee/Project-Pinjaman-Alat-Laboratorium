@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+
+<html lang="id"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Login - SiPinjam Lab</title>
+<!-- Google Fonts: Plus Jakarta Sans -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS CDN -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Tailwind Configuration -->
+<script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              teal: '#0d8a72',
+              'teal-dark': '#0b735f',
+              'badge-bg': '#19967e',
+              'demo-bg': '#f8fafc',
+              'demo-border': '#f1f5f9',
+              'demo-btn-bg': '#e6f7f3',
+              'demo-btn-text': '#0d8a72',
+            }
+          },
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
+<style data-purpose="custom-overrides">
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+    }
+  </style>
+</head>
+<body class="bg-white text-slate-800 antialiased min-h-screen flex selection:bg-teal-100 selection:text-teal-900">
+<!-- BEGIN: LeftBrandingPanel -->
+<aside class="hidden lg:flex lg:w-[52%] bg-[#0d8a72] flex-col justify-center items-center px-12 text-white text-center relative select-none" data-purpose="branding-sidebar">
+<!-- Brand container -->
+<div class="max-w-md flex flex-col items-center">
+<!-- Laboratory Flask Icon Badge -->
+<div class="w-[72px] h-[72px] bg-[#16947b] rounded-2xl flex items-center justify-center shadow-inner mb-6" data-purpose="app-icon">
+<svg class="w-9 h-9 text-white stroke-[2.2] fill-none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" viewbox="0 0 24 24">
+<!-- Science Flask Path -->
+<path d="M10 2v5.5L4.72 17.55A2 2 0 0 0 6.47 20.5h11.06a2 2 0 0 0 1.75-2.95L14 7.5V2"></path>
+<path d="M8.5 2h7"></path>
+<path d="M7 16h10"></path>
+</svg>
+</div>
+<!-- App Title -->
+<h1 class="text-[34px] font-bold tracking-tight mb-4 text-white">
+        SiPinjam Lab
+      </h1>
+<!-- App Description -->
+<p class="text-[17px] font-normal leading-relaxed text-[#c7ede4] max-w-sm">
+        Solusi manajemen peminjaman alat laboratorium yang cerdas dan terintegrasi.
+      </p>
+</div>
+</aside>
+<!-- END: LeftBrandingPanel -->
+<!-- BEGIN: RightAuthPanel -->
+<main class="w-full lg:w-[48%] flex flex-col justify-between items-center min-h-screen px-6 py-10 sm:px-12 md:px-16" data-purpose="auth-form-container">
+<!-- Spacer for balance -->
+<div class="w-full h-2"></div>
+<!-- Login Card Content -->
+<div class="w-full max-w-[420px] flex flex-col my-auto">
+<!-- Header Titles -->
+<div class="text-center mb-8">
+<h2 class="text-[30px] font-bold text-[#1e293b] tracking-tight mb-2">
+          Selamat Datang
+        </h2>
+<p class="text-[15px] text-[#64748b]">
+          Silakan masuk ke akun Anda
+        </p>
+</div>
+<!-- Form Section -->
+<form class="space-y-5" data-purpose="login-form" onsubmit="event.preventDefault();">
+<!-- Field 1: Username / NIM -->
+<div>
+<label class="block text-[13.5px] font-semibold text-[#334155] mb-2" for="username">
+            Username / NIM
+          </label>
+<div class="relative rounded-lg shadow-sm">
+<div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3.5">
+<!-- User Icon -->
+<svg class="h-4 w-4 text-[#94a3b8]" fill="currentColor" viewbox="0 0 20 20">
+<path clip-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" fill-rule="evenodd"></path>
+</svg>
+</div>
+<input class="block w-full rounded-lg border border-[#e2e8f0] py-3 pl-10 pr-4 text-sm text-[#1e293b] placeholder-[#94a3b8] focus:border-[#0d8a72] focus:ring-1 focus:ring-[#0d8a72] outline-none transition" id="username" name="username" placeholder="Admin atau NIM mahasiswa" type="text"/>
+</div>
+</div>
+<!-- Field 2: Password -->
+<div>
+<label class="block text-[13.5px] font-semibold text-[#334155] mb-2" for="password">
+            Password
+          </label>
+<div class="relative rounded-lg shadow-sm">
+<div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3.5">
+<!-- Lock Icon -->
+<svg class="h-4 w-4 text-[#94a3b8]" fill="currentColor" viewbox="0 0 20 20">
+<path clip-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" fill-rule="evenodd"></path>
+</svg>
+</div>
+<input class="block w-full rounded-lg border border-[#e2e8f0] py-3 pl-10 pr-4 text-sm text-[#1e293b] placeholder-[#94a3b8] focus:border-[#0d8a72] focus:ring-1 focus:ring-[#0d8a72] outline-none transition" id="password" name="password" placeholder="Masukkan password" type="password"/>
+</div>
+</div>
+<!-- Submit Button -->
+<button class="w-full flex items-center justify-center gap-2 rounded-lg bg-[#0d8a72] hover:bg-[#0b735f] text-white py-3.5 px-4 text-sm font-semibold shadow-sm transition active:scale-[0.99] mt-2" type="submit">
+<span>Masuk ke Sistem</span>
+<!-- Arrow Right Icon -->
+<svg class="w-4 h-4 ml-0.5 stroke-[2.5]" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" viewbox="0 0 24 24">
+<line x1="5" x2="19" y1="12" y2="12"></line>
+<polyline points="12 5 19 12 12 19"></polyline>
+</svg>
+</button>
+</form>
+<!-- BEGIN: DemoAccountsCard -->
+<section class="mt-8 bg-[#f8fafc] rounded-xl p-4 sm:p-5 border border-[#edf2f7]" data-purpose="demo-credentials-card">
+<!-- Demo Box Title -->
+<div class="flex items-center gap-2 mb-3.5">
+<svg class="w-4 h-4 text-[#64748b]" fill="currentColor" viewbox="0 0 20 20">
+<path clip-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" fill-rule="evenodd"></path>
+</svg>
+<span class="text-[11.5px] font-bold tracking-wider text-[#64748b] uppercase">
+            AKUN DEMO UJI COBA
+          </span>
+</div>
+<!-- Account List -->
+<div class="space-y-2.5">
+<!-- Row 1: Admin -->
+<div class="bg-white rounded-lg p-3 sm:px-4 sm:py-3 border border-[#eef2f6] flex items-center justify-between">
+<div>
+<div class="text-[13px] font-bold text-[#1e293b]">Admin</div>
+<div class="text-[12px] text-[#64748b]">admin / admin123</div>
+</div>
+<button class="px-3.5 py-1.5 rounded-md bg-[#e6f7f3] hover:bg-[#d1f1ea] text-[#0d8a72] text-[11px] font-bold tracking-wide transition uppercase" onclick="fillCredentials('admin', 'admin123')" type="button">
+              GUNAKAN
+            </button>
+</div>
+<!-- Row 2: Mahasiswa -->
+<div class="bg-white rounded-lg p-3 sm:px-4 sm:py-3 border border-[#eef2f6] flex items-center justify-between">
+<div>
+<div class="text-[13px] font-bold text-[#1e293b]">Mahasiswa</div>
+<div class="text-[12px] text-[#64748b]">24051130004 / 123456</div>
+</div>
+<button class="px-3.5 py-1.5 rounded-md bg-[#e6f7f3] hover:bg-[#d1f1ea] text-[#0d8a72] text-[11px] font-bold tracking-wide transition uppercase" onclick="fillCredentials('24051130004', '123456')" type="button">
+              GUNAKAN
+            </button>
+</div>
+</div>
+</section>
+<!-- END: DemoAccountsCard -->
+</div>
+<!-- BEGIN: PageFooter -->
+<footer class="w-full text-center pt-8 pb-2" data-purpose="copyright-footer">
+<p class="text-[12px] text-[#94a3b8]">
+        © 2026 Kelompok 6 • UTS Praktikum MSI (Laravel MVC)
+      </p>
+</footer>
+<!-- END: PageFooter -->
+</main>
+<!-- END: RightAuthPanel -->
+<!-- Interactive helper for demo buttons -->
+<script data-purpose="credential-helper">
+    function fillCredentials(user, pass) {
+      document.getElementById('username').value = user;
+      document.getElementById('password').value = pass;
+    }
+  </script>
+</body></html>
