@@ -242,11 +242,11 @@
             @endif
 
             <!-- Kotak Penjelasan Aturan Denda Sesuai Soal UTS -->
-            <div class="rule-box-uts">
-                <i class="bi bi-exclamation-triangle-fill"></i>
-                <div class="rule-box-content">
-                    <div class="rule-title">Aturan Denda UTS</div>
-                    <p class="rule-text">
+            <div class="rule-box">
+                <i class="bi bi-exclamation-triangle-fill rule-box-icon"></i>
+                <div>
+                    <div class="rule-box-title">Aturan Denda UTS</div>
+                    <p class="rule-box-text">
                         Keterlambatan pengembalian <strong>&gt; 3 hari</strong> dikenakan denda <strong>Rp 2.000 / hari</strong>. Kerusakan alat dikenakan biaya perbaikan <strong>Rp 10.000 / unit</strong>.
                     </p>
                 </div>

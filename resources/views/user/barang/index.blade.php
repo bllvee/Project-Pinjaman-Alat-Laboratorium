@@ -67,7 +67,7 @@
                     <div>
                         <!-- Header Kartu: Kategori & Status Stok -->
                         <div class="d-flex justify-content-between align-items-center mb-3">
-                            <span class="badge-pill" style="background-color: var(--teal-soft); color: var(--teal-primary); border: 1px solid var(--teal-border); font-size: 11px;">
+                            <span class="badge-category">
                                 {{ $barang->kategori->nama_kategori ?? 'Umum' }}
                             </span>
                             @if ($barang->stok_tersedia > 0)
@@ -83,16 +83,12 @@
 
                         <!-- Info Alat -->
                         <div class="d-flex align-items-start gap-3 mb-3">
-                            <div class="stat-icon-box stat-icon-teal shrink-0" style="width: 44px; height: 44px; font-size: 20px;">
-                                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-                                    <path d="M10 2v7.31L4.1 19.34A2 2 0 0 0 5.8 22h12.4a2 2 0 0 0 1.7-2.66L14 9.31V2"/>
-                                    <path d="M8.5 2h7"/>
-                                    <path d="M7 16h10"/>
-                                </svg>
+                            <div class="stat-icon-box stat-icon-teal stat-icon-sm shrink-0">
+                                <i class="bi bi-box-seam"></i>
                             </div>
                             <div>
                                 <h3 class="fs-6 fw-bold text-dark mb-1">{{ $barang->nama_barang }}</h3>
-                                <span class="text-secondary small font-monospace">Kode: {{ $barang->kode_barang }}</span>
+                                <span class="text-secondary small">Kode: {{ $barang->kode_barang }}</span>
                             </div>
                         </div>
 
@@ -110,7 +106,7 @@
                                 <span>Pinjam Alat Ini</span>
                             </a>
                         @else
-                            <button class="btn btn-secondary w-100 disabled" disabled style="border-radius: var(--radius-btn); font-size: 14px; font-weight: 600;">
+                            <button class="btn btn-secondary w-100 disabled" disabled>
                                 <span>Tidak Dapat Dipinjam</span>
                             </button>
                         @endif

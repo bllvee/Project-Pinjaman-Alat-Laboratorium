@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+
+<html lang="id"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>SiPinjam Lab - Kategori Alat</title>
+<!-- Tailwind CSS CDN with forms and container queries plugins -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Custom Tailwind Configuration -->
+<script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              50: '#f0fdfa',
+              100: '#ccfbf1',
+              500: '#14b8a6',
+              600: '#0d9488',
+              700: '#0f766e',
+              800: '#115e59',
+            }
+          },
+          fontFamily: {
+            sans: ['Inter', 'system-ui', '-apple-system', 'BlinkMacSystemFont', '"Segoe UI"', 'Roboto', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
+<!-- Google Fonts: Inter -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<style data-purpose="custom-scroll-and-defaults">
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: #f8fafc;
+      color: #1e293b;
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col bg-[#f8fafc]">
+<!-- BEGIN: MainHeader -->
+<header class="w-full bg-white border-b border-gray-100 sticky top-0 z-50">
+<div class="max-w-7xl mx-auto px-6 lg:px-10 h-20 flex items-center justify-between">
+<!-- Brand Logo & Main Navigation -->
+<div class="flex items-center space-x-12">
+<!-- Logo -->
+<a class="flex items-center space-x-3 group" data-purpose="site-brand" href="#">
+<div class="w-10 h-10 rounded-xl bg-[#0f766e] flex items-center justify-center text-white shadow-sm transition-transform group-hover:scale-105">
+<!-- Laboratory Flask Icon -->
+<svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" viewbox="0 0 24 24">
+<path d="M10 2v7.31L4.69 17.5a2 2 0 0 0 1.62 2.5h11.38a2 2 0 0 0 1.62-2.5L14 9.31V2"></path>
+<line x1="8.5" x2="15.5" y1="2" y2="2"></line>
+<path d="M14 9.3h-4"></path>
+</svg>
+</div>
+<span class="text-xl font-bold tracking-tight text-[#0f766e]">SiPinjam Lab</span>
+</a>
+<!-- Desktop Navigation Links -->
+<nav class="hidden md:flex items-center space-x-8 text-sm font-medium">
+<a class="text-gray-500 hover:text-gray-900 transition-colors py-7" href="#">Dashboard</a>
+<a class="text-gray-500 hover:text-gray-900 transition-colors py-7" href="#">Data Barang</a>
+<div class="relative py-7">
+<a class="text-[#0f766e] font-semibold" href="#">Kategori</a>
+<!-- Active indicator underline -->
+<span class="absolute bottom-0 left-0 w-full h-[3px] bg-[#0f766e] rounded-t-full"></span>
+</div>
+<a class="text-gray-500 hover:text-gray-900 transition-colors py-7" href="#">Transaksi</a>
+</nav>
+</div>
+<!-- User Profile & Action Bar -->
+<div class="flex items-center space-x-5" data-purpose="user-navigation">
+<div class="text-right">
+<div class="text-sm font-bold text-gray-900 leading-tight">Petugas Laboratorium</div>
+<span class="inline-block mt-0.5 text-[11px] font-medium text-[#0f766e] bg-[#f0fdfa] border border-[#ccfbf1] px-2 py-0.5 rounded">
+            Admin Lab
+          </span>
+</div>
+<!-- Profile Picture Avatar -->
+<div class="relative">
+<img alt="Petugas Laboratorium Profile Avatar" class="w-10 h-10 rounded-full object-cover border-2 border-white shadow-sm ring-1 ring-gray-100" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCEDBfIgnzjZREhCUMy_BMYPFMbgnkaz_liFdCWwewG_v9J11dCNWY9ooGVGUmGMC3Xn_SnE18tI0kIhfmPyrRbpvd-xDOXF5vi9S2hPaKb-SV4Bl7_O2yPSuFOQacOtY4ChZQbOd5OFUTMxStwQkCioVf09B9qt6WmF-UUr2hPPhokf-R446HQhy9FElBPTPklz7tJaK0y5STMEM2K781x31x8XdWcXvqSv5f6-cmkSYsfr7euHhVbJA"/>
+</div>
+<!-- Logout Action Icon Button -->
+<button aria-label="Logout" class="text-gray-400 hover:text-gray-600 transition-colors p-1" type="button">
+<svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24">
+<path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+<polyline points="16 17 21 12 16 7"></polyline>
+<line x1="21" x2="9" y1="12" y2="12"></line>
+</svg>
+</button>
+</div>
+</div>
+</header>
+<!-- END: MainHeader -->
+<!-- BEGIN: MainContent -->
+<main class="flex-grow max-w-7xl mx-auto w-full px-6 lg:px-10 py-10">
+<!-- Page Header: Title and Action -->
+<section class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-8" data-purpose="page-title-section">
+<div>
+<h1 class="text-2xl font-bold tracking-tight text-gray-900">Kategori Alat</h1>
+<p class="text-sm text-gray-500 mt-1">Kelola klasifikasi alat laboratorium untuk pengorganisasian yang lebih baik.</p>
+</div>
+<!-- Add Category Button -->
+<div>
+<button class="inline-flex items-center space-x-2 bg-[#0f766e] hover:bg-[#115e59] text-white px-5 py-2.5 rounded-lg text-sm font-medium shadow-sm transition-all duration-150" type="button">
+<svg class="w-4 h-4 stroke-[2.5]" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" viewbox="0 0 24 24">
+<line x1="12" x2="12" y1="5" y2="19"></line>
+<line x1="5" x2="19" y1="12" y2="12"></line>
+</svg>
+<span>Tambah Kategori</span>
+</button>
+</div>
+</section>
+<!-- Table Container Card -->
+<div class="bg-white rounded-xl border border-gray-200/90 shadow-sm overflow-hidden" data-purpose="category-table-container">
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse" id="category-table">
+<thead>
+<tr class="border-b border-gray-100 text-[11px] font-bold text-gray-500 uppercase tracking-wider bg-white">
+<th class="py-4 px-6 font-semibold" scope="col">Nama Kategori</th>
+<th class="py-4 px-6 font-semibold text-center sm:text-left" scope="col">Jumlah Barang</th>
+<th class="py-4 px-6 font-semibold" scope="col">Terakhir Update</th>
+<th class="py-4 px-6 font-semibold text-right" scope="col">Aksi</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-gray-100 text-sm">
+<!-- Category Item 1: Mikroskop & Optik -->
+<tr class="hover:bg-gray-50/60 transition-colors">
+<td class="py-5 px-6">
+<div class="flex items-center space-x-4">
+<!-- Category Icon -->
+<div class="w-10 h-10 rounded-xl bg-blue-50 flex items-center justify-center flex-shrink-0 text-blue-600">
+<svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24">
+<circle cx="12" cy="7" r="4"></circle>
+<path d="M5.5 21v-2a6.5 6.5 0 0 1 13 0v2"></path>
+<path d="M12 11v6"></path>
+<path d="M9 14h6"></path>
+</svg>
+</div>
+<div>
+<div class="font-bold text-gray-900 leading-tight">Mikroskop &amp; Optik</div>
+<div class="text-xs text-gray-400 mt-1">Alat pengamatan visual presisi</div>
+</div>
+</div>
+</td>
+<td class="py-5 px-6">
+<span class="inline-flex items-center px-3.5 py-1 rounded-full text-xs font-semibold bg-gray-100 text-gray-700">
+                  128 Barang
+                </span>
+</td>
+<td class="py-5 px-6 text-gray-600 font-normal">
+                15 Oct 2026
+              </td>
+<td class="py-5 px-6 text-right">
+<div class="inline-flex items-center space-x-2">
+<button aria-label="Lihat Detail" class="p-1.5 text-gray-400 hover:text-gray-600 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors" type="button">
+<svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24">
+<path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+<circle cx="12" cy="12" r="3"></circle>
+</svg>
+</button>
+<button aria-label="Edit Kategori" class="p-1.5 text-gray-400 hover:text-gray-600 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors" type="button">
+<svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24">
+<path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+<path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+</svg>
+</button>
+</div>
+</td>
+</tr>
+<!-- Category Item 2: Pemanas & Inkubasi -->
+<tr class="hover:bg-gray-50/60 transition-colors">
+<td class="py-5 px-6">
+<div class="flex items-center space-x-4">
+<!-- Category Icon -->
+<div class="w-10 h-10 rounded-xl bg-teal-50 flex items-center justify-center flex-shrink-0 text-teal-600">
+<svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24">
+<rect height="16" rx="2" width="20" x="2" y="4"></rect>
+<path d="M6 10h.01"></path>
+<path d="M10 10h.01"></path>
+<path d="M6 14h8"></path>
+</svg>
+</div>
+<div>
+<div class="font-bold text-gray-900 leading-tight">Pemanas &amp; Inkubasi</div>
+<div class="text-xs text-gray-400 mt-1">Oven, Furnace, Waterbath</div>
+</div>
+</div>
+</td>
+<td class="py-5 px-6">
+<span class="inline-flex items-center px-3.5 py-1 rounded-full text-xs font-semibold bg-gray-100 text-gray-700">
+                  85 Barang
+                </span>
+</td>
+<td class="py-5 px-6 text-gray-600 font-normal">
+                12 Oct 2026
+              </td>
+<td class="py-5 px-6 text-right">
+<div class="inline-flex items-center space-x-2">
+<button aria-label="Lihat Detail" class="p-1.5 text-gray-400 hover:text-gray-600 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors" type="button">
+<svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24">
+<path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+<circle cx="12" cy="12" r="3"></circle>
+</svg>
+</button>
+<button aria-label="Edit Kategori" class="p-1.5 text-gray-400 hover:text-gray-600 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors" type="button">
+<svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24">
+<path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+<path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+</svg>
+</button>
+</div>
+</td>
+</tr>
+<!-- Category Item 3: Sentrifugasi -->
+<tr class="hover:bg-gray-50/60 transition-colors">
+<td class="py-5 px-6">
+<div class="flex items-center space-x-4">
+<!-- Category Icon -->
+<div class="w-10 h-10 rounded-xl bg-amber-50 flex items-center justify-center flex-shrink-0 text-amber-500">
+<svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24">
+<path d="M5 22h14"></path>
+<path d="M5 2h14"></path>
+<path d="M17 22v-4.172a2 2 0 0 0-.586-1.414L12 12l-4.414 4.414A2 2 0 0 0 7 17.828V22"></path>
+<path d="M7 2v4.172a2 2 0 0 0 .586 1.414L12 12l4.414-4.414A2 2 0 0 0 17 6.172V2"></path>
+</svg>
+</div>
+<div>
+<div class="font-bold text-gray-900 leading-tight">Sentrifugasi</div>
+<div class="text-xs text-gray-400 mt-1">Alat pemisah komponen cairan</div>
+</div>
+</div>
+</td>
+<td class="py-5 px-6">
+<span class="inline-flex items-center px-3.5 py-1 rounded-full text-xs font-semibold bg-gray-100 text-gray-700">
+                  42 Barang
+                </span>
+</td>
+<td class="py-5 px-6 text-gray-600 font-normal">
+                10 Oct 2026
+              </td>
+<td class="py-5 px-6 text-right">
+<div class="inline-flex items-center space-x-2">
+<button aria-label="Lihat Detail" class="p-1.5 text-gray-400 hover:text-gray-600 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors" type="button">
+<svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24">
+<path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+<circle cx="12" cy="12" r="3"></circle>
+</svg>
+</button>
+<button aria-label="Edit Kategori" class="p-1.5 text-gray-400 hover:text-gray-600 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors" type="button">
+<svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24">
+<path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+<path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+</svg>
+</button>
+</div>
+</td>
+</tr>
+<!-- Category Item 4: Instrumen Analitik -->
+<tr class="hover:bg-gray-50/60 transition-colors">
+<td class="py-5 px-6">
+<div class="flex items-center space-x-4">
+<!-- Category Icon -->
+<div class="w-10 h-10 rounded-xl bg-red-50 flex items-center justify-center flex-shrink-0 text-red-500">
+<svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24">
+<circle cx="12" cy="12" r="9"></circle>
+<polyline points="12 7 12 12 15 15"></polyline>
+<path d="M4 12a8 8 0 0 1 8-8"></path>
+</svg>
+</div>
+<div>
+<div class="font-bold text-gray-900 leading-tight">Instrumen Analitik</div>
+<div class="text-xs text-gray-400 mt-1">Spektrofotometer, pH Meter, dsb</div>
+</div>
+</div>
+</td>
+<td class="py-5 px-6">
+<span class="inline-flex items-center px-3.5 py-1 rounded-full text-xs font-semibold bg-gray-100 text-gray-700">
+                  215 Barang
+                </span>
+</td>
+<td class="py-5 px-6 text-gray-600 font-normal">
+                08 Oct 2026
+              </td>
+<td class="py-5 px-6 text-right">
+<div class="inline-flex items-center space-x-2">
+<button aria-label="Lihat Detail" class="p-1.5 text-gray-400 hover:text-gray-600 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors" type="button">
+<svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24">
+<path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+<circle cx="12" cy="12" r="3"></circle>
+</svg>
+</button>
+<button aria-label="Edit Kategori" class="p-1.5 text-gray-400 hover:text-gray-600 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors" type="button">
+<svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24">
+<path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+<path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+</svg>
+</button>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Pagination Footer in Card -->
+<div class="py-4 border-t border-gray-100 flex items-center justify-center" data-purpose="table-pagination">
+<nav aria-label="Pagination" class="inline-flex items-center space-x-1.5">
+<!-- Previous Page Button -->
+<button aria-label="Previous page" class="w-8 h-8 flex items-center justify-center text-gray-400 hover:text-gray-600 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors" type="button">
+<svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" viewbox="0 0 24 24">
+<polyline points="15 18 9 12 15 6"></polyline>
+</svg>
+</button>
+<!-- Page 1 (Active) -->
+<button class="w-8 h-8 flex items-center justify-center text-xs font-semibold text-white bg-[#0f766e] rounded-lg" type="button">
+            1
+          </button>
+<!-- Page 2 -->
+<button class="w-8 h-8 flex items-center justify-center text-xs font-medium text-gray-600 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors" type="button">
+            2
+          </button>
+<!-- Page 3 -->
+<button class="w-8 h-8 flex items-center justify-center text-xs font-medium text-gray-600 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors" type="button">
+            3
+          </button>
+<!-- Next Page Button -->
+<button aria-label="Next page" class="w-8 h-8 flex items-center justify-center text-gray-400 hover:text-gray-600 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors" type="button">
+<svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" viewbox="0 0 24 24">
+<polyline points="9 18 15 12 9 6"></polyline>
+</svg>
+</button>
+</nav>
+</div>
+</div>
+</main>
+<!-- END: MainContent -->
+<!-- BEGIN: MainFooter -->
+<footer class="w-full bg-[#f8fafc] border-t border-gray-100 py-6 text-xs text-gray-500">
+<div class="max-w-7xl mx-auto px-6 lg:px-10 flex flex-col sm:flex-row items-center justify-between gap-4">
+<div>
+        © 2026 Sistem Peminjaman Alat Laboratorium — UTS Praktikum MSI Kelompok 6 (Laravel MVC)
+      </div>
+<div class="flex items-center space-x-6">
+<a class="hover:text-gray-700 transition-colors" href="#">Bantuan</a>
+<a class="hover:text-gray-700 transition-colors" href="#">Kebijakan Privasi</a>
+<a class="hover:text-gray-700 transition-colors" href="#">Syarat &amp; Ketentuan</a>
+</div>
+</div>
+</footer>
+<!-- END: MainFooter -->
+</body></html>

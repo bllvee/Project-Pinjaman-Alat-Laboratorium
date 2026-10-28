@@ -44,11 +44,11 @@
                             <!-- Kolom Nama & Deskripsi Kategori -->
                             <td>
                                 <div class="d-flex align-items-center gap-3">
-                                    <div class="stat-icon-box {{ $colorClass }}" style="width: 42px; height: 42px; border-radius: 10px; font-size: 18px;">
+                                    <div class="stat-icon-box {{ $colorClass }} stat-icon-sm shrink-0">
                                         <i class="bi {{ $iconSymbol }}"></i>
                                     </div>
-                                    <div class="d-flex flex-col">
-                                        <span class="fw-bold text-dark fs-6">{{ $kat->nama_kategori }}</span>
+                                    <div class="d-flex flex-column">
+                                        <span class="fw-bold text-dark fs-6 lh-sm mb-1">{{ $kat->nama_kategori }}</span>
                                         <span class="text-secondary small">
                                             {{ $kat->deskripsi ?: 'Klasifikasi instrumen laboratorium' }}
                                         </span>
@@ -58,7 +58,7 @@
 
                             <!-- Kolom Jumlah Barang -->
                             <td>
-                                <span class="badge-pill" style="background-color: var(--bg-page); border: 1px solid var(--border-color); color: var(--text-main); font-weight: 600;">
+                                <span class="badge-count">
                                     {{ $kat->barangs_count }} Barang
                                 </span>
                             </td>

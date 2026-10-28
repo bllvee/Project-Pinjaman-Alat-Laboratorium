@@ -9,7 +9,7 @@
     <div class="sipinjam-card mb-4 p-4">
         <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3">
             <div class="d-flex align-items-center gap-3">
-                <div class="user-avatar-circle" style="width: 54px; height: 54px; font-size: 20px;">
+                <div class="user-avatar-circle user-avatar-lg">
                     {{ strtoupper(substr($user->name, 0, 2)) }}
                 </div>
                 <div>
@@ -56,7 +56,7 @@
         <!-- 2. Peminjaman Selesai -->
         <div class="col-12 col-md-4">
             <div class="stat-card">
-                <div class="stat-icon-box" style="background-color: var(--status-success-bg); color: var(--status-success-text);">
+                <div class="stat-icon-box stat-icon-green">
                     <i class="bi bi-check2-circle"></i>
                 </div>
                 <div class="stat-content">
@@ -74,7 +74,7 @@
                 </div>
                 <div class="stat-content">
                     <span class="stat-label">TOTAL DENDA ANDA</span>
-                    <span class="stat-value" style="font-size: 22px;">Rp {{ number_format($totalDenda, 0, ',', '.') }}</span>
+                    <span class="stat-value stat-value-currency">Rp {{ number_format($totalDenda, 0, ',', '.') }}</span>
                 </div>
             </div>
         </div>
@@ -101,7 +101,7 @@
                     <div class="col-12 col-md-6">
                         <div class="p-3 rounded-3 border bg-light d-flex align-items-center justify-content-between">
                             <div class="d-flex align-items-center gap-3">
-                                <div class="stat-icon-box stat-icon-teal" style="width: 44px; height: 44px; font-size: 20px;">
+                                <div class="stat-icon-box stat-icon-teal stat-icon-sm">
                                     <i class="bi bi-tools"></i>
                                 </div>
                                 <div>
@@ -115,9 +115,9 @@
                                     {{ $tglRencana->translatedFormat('d M Y') }}
                                 </strong>
                                 @if ($isTerlambat)
-                                    <span class="badge-pill status-pill-danger d-block mt-1">Terlambat {{ $selisihHari }} hari</span>
+                                    <span class="status-pill status-terlambat d-block mt-1">Terlambat {{ $selisihHari }} hari</span>
                                 @else
-                                    <span class="badge-pill status-pill-info d-block mt-1">Sisa {{ $selisihHari }} hari</span>
+                                    <span class="status-pill status-dipinjam d-block mt-1">Sisa {{ $selisihHari }} hari</span>
                                 @endif
                             </div>
                         </div>
@@ -181,7 +181,7 @@
                                 @if ($p->status === 'dipinjam')
                                     <span class="status-pill status-dipinjam">Dipinjam</span>
                                 @elseif ($p->status === 'dikembalikan')
-                                    <span class="status-pill status-dikembalikan">Kembali</span>
+                                    <span class="status-pill status-dikembalikan">Dikembalikan</span>
                                 @else
                                     <span class="status-pill status-terlambat">{{ ucfirst($p->status) }}</span>
                                 @endif
