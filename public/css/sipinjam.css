@@ -464,6 +464,11 @@ h1, h2, h3, h4, h5, h6 {
     color: var(--stat-yellow-icon);
 }
 
+.stat-icon-green {
+    background-color: var(--status-success-bg);
+    color: var(--status-success-text);
+}
+
 .stat-content {
     display: flex;
     flex-direction: column;
@@ -747,6 +752,19 @@ h1, h2, h3, h4, h5, h6 {
     font-size: 12px;
     font-weight: 600;
     border-radius: var(--radius-pill);
+    line-height: 1.4;
+}
+
+.badge-count {
+    display: inline-flex;
+    align-items: center;
+    padding: 4px 12px;
+    font-size: 12px;
+    font-weight: 600;
+    border-radius: var(--radius-pill);
+    background-color: var(--bg-page);
+    border: 1px solid var(--border-subtle);
+    color: var(--text-main);
     line-height: 1.4;
 }
 
@@ -1229,3 +1247,130 @@ textarea.form-control-custom {
 .footer-links a:hover {
     color: var(--text-secondary);
 }
+
+/* ========================================================
+   Utility Helpers
+   ======================================================== */
+
+/* Teal Color Utilities */
+.text-teal {
+    color: var(--teal-primary) !important;
+}
+
+.bg-teal {
+    background-color: var(--teal-primary) !important;
+}
+
+/* Card Title Header within Cards */
+.card-title-header {
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--border-subtle);
+}
+
+/* Shrink-0 flex helper */
+.shrink-0 {
+    flex-shrink: 0;
+}
+
+/* Status pill variants for detail page */
+.status-pill-danger {
+    background-color: var(--status-danger-bg);
+    color: var(--status-danger-text);
+    border: 1px solid var(--status-danger-border);
+}
+
+.status-pill-success {
+    background-color: var(--status-success-bg);
+    color: var(--status-success-text);
+    border: 1px solid var(--status-success-border);
+}
+
+.status-pill-info {
+    background-color: var(--status-info-bg);
+    color: var(--status-info-text);
+    border: 1px solid var(--status-info-border);
+}
+
+/* Dashboard page padding-top helper */
+.dashboard-page, .barang-index-page, .kategori-index-page,
+.transaksi-index-page, .peminjaman-detail-page, .create-barang-page,
+.edit-barang-page, .user-dashboard-page, .user-barang-page,
+.user-peminjaman-page, .create-peminjaman-page {
+    padding-top: 4px;
+}
+
+/* User Identity Card on Form Ajukan Pinjam */
+.user-identity-box {
+    background-color: var(--teal-soft);
+    border: 1px solid var(--teal-border);
+    border-radius: var(--radius-card);
+    padding: 16px 20px;
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+}
+
+.user-identity-box .user-identity-icon {
+    color: var(--teal-primary);
+    font-size: 22px;
+    line-height: 1;
+    margin-top: 2px;
+    flex-shrink: 0;
+}
+
+.user-identity-box .user-identity-title {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--teal-hover);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    margin-bottom: 6px;
+}
+
+.user-identity-item {
+    font-size: 13px;
+    color: var(--text-body);
+}
+
+.user-identity-item strong {
+    color: var(--text-main);
+}
+
+/* Badge Category Pill */
+.badge-category {
+    background-color: var(--teal-soft);
+    color: var(--teal-primary);
+    border: 1px solid var(--teal-border);
+    font-size: 11px;
+    font-weight: 600;
+    padding: 3px 10px;
+    border-radius: var(--radius-pill);
+    display: inline-flex;
+    align-items: center;
+}
+
+/* Avatar & Icon sizing helpers */
+.user-avatar-lg {
+    width: 52px;
+    height: 52px;
+    font-size: 20px;
+}
+
+.stat-icon-sm {
+    width: 44px;
+    height: 44px;
+    font-size: 20px;
+}
+
+.stat-value-currency {
+    font-size: 22px;
+}
+
+/* Breadcrumb Styling */
+.breadcrumb-sipinjam {
+    font-size: 13px;
+    margin-bottom: 4px;
+}
+
+
+
